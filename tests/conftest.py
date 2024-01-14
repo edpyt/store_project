@@ -1,3 +1,5 @@
+import os
+from pathlib import Path
 from typing import AsyncGenerator
 
 import pytest
@@ -5,8 +7,24 @@ import pytest_asyncio
 from sqlalchemy.ext.asyncio.engine import AsyncEngine
 from sqlalchemy.ext.asyncio.session import AsyncSession
 
+from src.common.config.models.main import Config
+from src.common.config.parser.main import load_config
 from src.infrastructure.db import build_async_engine
 from src.infrastructure.db.config import DBConfig
+
+
+@pytest.fixture(name='path')
+def config_path() -> Path:
+    path: str | None = os.getenv('CONFIG_PATH')
+
+    assert path, 'Not found CONFIG_PATH'
+
+    return Path(path / 'config.yml')
+
+
+@pytest.fixture
+def config(path: Path) -> Config:
+    return load_config(path)
 
 
 @pytest.fixture

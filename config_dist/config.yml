@@ -1,8 +1,8 @@
 db:
   type: postgresql
   connector: asyncpg
-  host: localhost
+  host: test-db
   port: 5432
-  login: postgres
+  user: postgres
   password: postgres
-  name: order_app
+  name: order
