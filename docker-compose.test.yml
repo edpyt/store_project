@@ -5,19 +5,20 @@ services:
       dockerfile: ./Dockerfile
       args:
         POETRY_DEP_GROUP: "test"
-    command: pytest tests/ -s
+    command: pytest tests -s
     # tty: true
     # command: /bin/bash
     volumes:
         # config
       - type: "bind"
         source: "./config_dist"
-        target: "/app/src/config"
+        target: "/store_project/src/config"
         read_only: true
         # tests
       - type: "bind"
         source: "./tests"
-        target: "/app/tests"
+        target: "/store_project/tests"
+        read_only: true
 
     depends_on:
       test-db:
@@ -27,6 +28,7 @@ services:
     image: postgres:latest
     restart: on-failure
     environment:
+      # Must be the same vars as ./config_dist/config.yml
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=order

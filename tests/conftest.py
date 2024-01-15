@@ -13,28 +13,28 @@ from src.infrastructure.db import build_async_engine
 from src.infrastructure.db.config import DBConfig
 
 
-@pytest.fixture(name='path')
+@pytest.fixture(name='path', scope='session')
 def config_path() -> Path:
     path: str | None = os.getenv('CONFIG_PATH')
 
     assert path, 'Not found CONFIG_PATH'
 
-    return Path(path / 'config.yml')
+    return Path(f'{path}/config.yml')
 
 
-@pytest.fixture
+@pytest.fixture(scope='session')
 def config(path: Path) -> Config:
     return load_config(path)
 
 
-@pytest.fixture
+@pytest.fixture(scope='session')
 def db_config() -> DBConfig:
     return DBConfig(user='test', password='test')
 
 
 @pytest_asyncio.fixture(scope='session')
 async def engine(db_config: DBConfig) -> AsyncEngine:
-    return build_async_engine(db_config.full_url)
+    return build_async_engine(db_config)
 
 
 @pytest_asyncio.fixture

@@ -1,6 +1,6 @@
 from pathlib import Path
 
-import yaml
+import yaml  # type: ignore
 
 
 def read_config(config_path: Path) -> dict:

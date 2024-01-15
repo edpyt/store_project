@@ -1,1 +1,1 @@
-from .main import build_async_engine  # noqa
+from src.infrastructure.db.main import build_async_engine  # noqa
