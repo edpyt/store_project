@@ -10,11 +10,11 @@ def load_config(
     path: str | None = None, type_config: Literal['all', 'db'] = 'all'
 ) -> Config | DBConfig:
     if path is None:
-        path = './config_dist/config.yml'
+        path = './config_dist/dev_config.yml'
     path_obj = Path(path)
 
     config: dict = read_config(path_obj)
-    db_config: DBConfig = DBConfig(**config)
+    db_config: DBConfig = DBConfig(**config['db'])
 
     config: Config = Config(db_config)
 
