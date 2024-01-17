@@ -1,13 +1,11 @@
 services:
-  test-order-app:
+  test:
     build:
       context: ./
       dockerfile: ./Dockerfile
       args:
         POETRY_DEP_GROUP: "test"
-    command: pytest tests -s
-    # tty: true
-    # command: /bin/bash
+    command: pytest tests -ss
     volumes:
         # config
       - type: "bind"

@@ -14,16 +14,16 @@ from src.infrastructure.db.config import DBConfig
 
 
 @pytest.fixture(name='path', scope='session')
-def config_path() -> Path:
+def config_path() -> str:
     path: str | None = os.getenv('CONFIG_PATH')
 
-    assert path, 'Not found CONFIG_PATH'
+    assert path, 'Not found CONFIG_PATH environment'
 
-    return Path(f'{path}/config.yml')
+    return path
 
 
 @pytest.fixture(scope='session')
-def config(path: Path) -> Config:
+def config(path: str) -> Config:
     return load_config(path)
 
 

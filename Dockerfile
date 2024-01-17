@@ -5,7 +5,7 @@ WORKDIR /store_project/
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-ENV CONFIG_PATH='../config/'
+ENV CONFIG_PATH='../config/config.yml'
 
 ENV PYTHONPATH="${PYTHONPATH}:/store_project"
 
