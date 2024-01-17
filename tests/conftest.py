@@ -22,7 +22,7 @@ def config_path() -> str:
 
 @pytest.fixture(scope='session')
 def db_config(path: str) -> DBConfig:
-    return load_config(path, 'db')
+    return load_config(path, 'db')  # type: ignore
 
 
 @pytest_asyncio.fixture(scope='session')

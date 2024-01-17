@@ -13,10 +13,10 @@ def load_config(
         path = './config_dist/dev_config.yml'
     path_obj = Path(path)
 
-    config: dict = read_config(path_obj)
-    db_config: DBConfig = DBConfig(**config['db'])
+    config_data: dict = read_config(path_obj)
+    db_config: DBConfig = DBConfig(**config_data['db'])
 
-    config: Config = Config(db_config)
+    config: Config = Config(db=db_config)
 
     match type_config:
         case 'db':
