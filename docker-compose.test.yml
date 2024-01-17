@@ -17,7 +17,8 @@ services:
         source: "./tests"
         target: "/store_project/tests"
         read_only: true
-
+    environment:
+      - CONFIG_PATH='/store_project/src/config/test_config.yml'
     depends_on:
       test-db:
         condition: service_healthy
@@ -26,7 +27,7 @@ services:
     image: postgres:latest
     restart: on-failure
     environment:
-      # Must be the same vars as ./config_dist/config.yml
+      # Must be the same vars as ./config_dist/test_config.yml
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=order

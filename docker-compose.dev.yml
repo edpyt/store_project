@@ -1,0 +1,41 @@
+services:
+  store-api-app:
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+      args:
+        POETRY_DEP_GROUP: "main"
+    command: echo "Hello, world!"
+    volumes:
+      # for application reload and save
+      - ./src:/store_project/src
+      # config
+      - type: "bind"
+        source: "./config_dist"
+        target: "/store_project/src/config"
+        read_only: true
+    environment:
+      - CONFIG_PATH=/store_project/src/config/dev_config.yml
+    depends_on:
+      dev-db:
+        condition: service_healthy
+
+  dev-db:
+    image: postgres:latest
+    restart: on-failure
+    env_file:
+      # Must be same vars as ./config_dist/dev_config.yml
+      - .dev.env
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d $$POSTGRES_DB -U $$POSTGRES_USER"]
+      interval: 5s
+      timeout: 20s
+      retries: 5
+    ports:
+      - 5432:5432
+    volumes:
+      # save db data
+      - pg_data:/var/lib/postgresql/data
+
+volumes:
+  pg_data:

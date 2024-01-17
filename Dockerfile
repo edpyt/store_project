@@ -5,8 +5,6 @@ WORKDIR /store_project/
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-ENV CONFIG_PATH='../config/config.yml'
-
 ENV PYTHONPATH="${PYTHONPATH}:/store_project"
 
 COPY ./poetry.lock ./pyproject.toml /store_project/
@@ -17,5 +15,5 @@ RUN poetry config virtualenvs.create false
 
 COPY ./src /store_project/src
 
-ARG POETRY_DEP_GROUP=dev
+ARG POETRY_DEP_GROUP
 RUN poetry install --with ${POETRY_DEP_GROUP}
