@@ -1,8 +1,9 @@
 import pytest
+from sqlalchemy import text
 
-from sqlalchemy.ext.asyncio.engine import AsyncEngine
+from sqlalchemy.ext.asyncio.session import AsyncSession
 
 
 @pytest.mark.asyncio
-async def test_db_connected(engine: AsyncEngine):
-    assert engine  # Should not raise error
+async def test_db_connected(session: AsyncSession):
+    await session.execute(text('SELECT 1'))

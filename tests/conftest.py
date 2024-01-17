@@ -1,5 +1,4 @@
 import os
-from pathlib import Path
 from typing import AsyncGenerator
 
 import pytest
@@ -7,7 +6,6 @@ import pytest_asyncio
 from sqlalchemy.ext.asyncio.engine import AsyncEngine
 from sqlalchemy.ext.asyncio.session import AsyncSession
 
-from src.common.config.models.main import Config
 from src.common.config.parser.main import load_config
 from src.infrastructure.db import build_async_engine
 from src.infrastructure.db.config import DBConfig
@@ -23,18 +21,14 @@ def config_path() -> str:
 
 
 @pytest.fixture(scope='session')
-def config(path: str) -> Config:
-    return load_config(path)
-
-
-@pytest.fixture(scope='session')
-def db_config() -> DBConfig:
-    return DBConfig(user='test', password='test')
+def db_config(path: str) -> DBConfig:
+    return load_config(path, 'db')
 
 
 @pytest_asyncio.fixture(scope='session')
 async def engine(db_config: DBConfig) -> AsyncEngine:
-    return build_async_engine(db_config)
+    # TODO: Refactor function
+    return await anext(build_async_engine(db_config))
 
 
 @pytest_asyncio.fixture

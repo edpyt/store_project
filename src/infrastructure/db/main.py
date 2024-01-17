@@ -7,13 +7,14 @@ from sqlalchemy.ext.asyncio.session import AsyncSession
 from src.infrastructure.db.config import DBConfig
 
 
-@asynccontextmanager
 async def build_async_engine(
     db_config: DBConfig
 ) -> AsyncGenerator[AsyncEngine, None]:
     engine = create_async_engine(db_config.full_url)
     try:
         yield engine
+    except Exception as e:
+        raise e
     finally:
         await engine.dispose()
 

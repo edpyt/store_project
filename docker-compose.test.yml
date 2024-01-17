@@ -18,7 +18,7 @@ services:
         target: "/store_project/tests"
         read_only: true
     environment:
-      - CONFIG_PATH='/store_project/src/config/test_config.yml'
+      - CONFIG_PATH=/store_project/src/config/test_config.yml
     depends_on:
       test-db:
         condition: service_healthy
