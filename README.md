@@ -1,6 +1,6 @@
 Simple order app
 
-Run Docker:
+Setup Docker:
 
 Create `dev_config.yml` file in `config_dist` dir like this:
 
@@ -24,4 +24,10 @@ POSTGRES_PORT=5433
 POSTGRES_USER=order
 POSTGRES_PASSWORD=order
 POSTGRES_DB=order
+```
+
+Run tests:
+
+```bash
+make test
 ```

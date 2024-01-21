@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 from typing import AsyncGenerator
 
 import pytest
@@ -13,10 +14,7 @@ from src.infrastructure.db.config import DBConfig
 
 @pytest.fixture(name='path', scope='session')
 def config_path() -> str:
-    path: str | None = os.getenv('CONFIG_PATH')
-
-    assert path, 'Not found CONFIG_PATH environment'
-
+    path: str | None = Path(__file__).parent / 'config/test_config.yml'
     return path
 
 
