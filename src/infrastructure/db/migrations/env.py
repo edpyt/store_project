@@ -17,9 +17,7 @@ config = context.config
 
 config.set_main_option(
     "sqlalchemy.url",
-    load_config(
-        os.environ.get('CONFIG_PATH'), type_config='db'
-    ).full_url  # type: ignore
+    load_config(os.environ.get('CONFIG_PATH'), type_config='db').full_url
 )
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.

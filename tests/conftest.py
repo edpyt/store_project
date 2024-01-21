@@ -27,7 +27,6 @@ def db_config(path: str) -> DBConfig:
 
 @pytest_asyncio.fixture(scope='session')
 async def engine(db_config: DBConfig) -> AsyncEngine:
-    # TODO: Refactor function
     return await anext(build_async_engine(db_config))
 
 
