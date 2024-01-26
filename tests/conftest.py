@@ -11,21 +11,21 @@ from src.infrastructure.db import build_async_engine
 from src.infrastructure.db.config import DBConfig
 
 
-@pytest.fixture(name='path', scope='session')
+@pytest.fixture(name="path", scope="session")
 def config_path() -> str:
-    path: str | None = os.getenv('CONFIG_PATH')
+    path: str | None = os.getenv("CONFIG_PATH")
 
-    assert path, 'Not found CONFIG_PATH environment'
+    assert path, "Not found CONFIG_PATH environment"
 
     return path
 
 
-@pytest.fixture(scope='session')
+@pytest.fixture(scope="session")
 def db_config(path: str) -> DBConfig:
-    return load_config(path, 'db')  # type: ignore
+    return load_config(path, "db")  # type: ignore
 
 
-@pytest_asyncio.fixture(scope='session')
+@pytest_asyncio.fixture(scope="session")
 async def engine(db_config: DBConfig) -> AsyncEngine:
     # TODO: Refactor function
     return await anext(build_async_engine(db_config))
@@ -33,7 +33,7 @@ async def engine(db_config: DBConfig) -> AsyncEngine:
 
 @pytest_asyncio.fixture
 async def session(
-    engine: AsyncEngine
+    engine: AsyncEngine,
 ) -> AsyncGenerator[AsyncSession, None]:
     async with engine.begin() as session:
         yield session

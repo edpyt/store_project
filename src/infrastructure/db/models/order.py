@@ -1,7 +1,7 @@
 from src.infrastructure.db.models.base import (
-    BaseModelCreatedUpdated, BaseModelUUID
+    BaseModelCreatedUpdated, BaseModelUUID,
 )
 
 
 class Order(BaseModelUUID, BaseModelCreatedUpdated):
-    __tablename__ = 'order'
+    __tablename__ = "order"

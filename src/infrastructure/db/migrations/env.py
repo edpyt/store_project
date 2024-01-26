@@ -18,8 +18,8 @@ config = context.config
 config.set_main_option(
     "sqlalchemy.url",
     load_config(
-        os.environ.get('CONFIG_PATH'), type_config='db'
-    ).full_url  # type: ignore
+        os.environ.get("CONFIG_PATH"), type_config="db",
+    ).full_url,  # type: ignore
 )
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
@@ -74,7 +74,6 @@ async def run_async_migrations() -> None:
     and associate a connection with the context.
 
     """
-
     connectable = async_engine_from_config(
         config.get_section(config.config_ini_section, {}),
         prefix="sqlalchemy.",
@@ -89,7 +88,6 @@ async def run_async_migrations() -> None:
 
 def run_migrations_online() -> None:
     """Run migrations in 'online' mode."""
-
     asyncio.run(run_async_migrations())
 
 

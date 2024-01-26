@@ -2,11 +2,11 @@ from sqlalchemy import String
 from sqlalchemy.orm import Mapped, mapped_column
 
 from src.infrastructure.db.models.base import (
-    BaseModelCreatedUpdated, BaseModelUUID
+    BaseModelCreatedUpdated, BaseModelUUID,
 )
 
 
 class Product(BaseModelUUID, BaseModelCreatedUpdated):
-    __tablename__ = 'product'
+    __tablename__ = "product"
 
     name: Mapped[str] = mapped_column(String(255))
