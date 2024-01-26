@@ -3,26 +3,23 @@ from dataclasses import dataclass
 
 @dataclass
 class DBConfig:
-    type: str = 'postgresql'
+    type: str = "postgresql"
     connector: str | None = None
-    host: str = 'localhost'
+    host: str = "localhost"
     port: int = 5431
-    database: str = 'test'
-    user: str = 'postgres'
-    password: str = 'postgres'
+    database: str = "test"
+    user: str = "postgres"
+    password: str = "postgres"
 
     @property
     def full_url(self) -> str:
-        if self.connector:
-            dialect = f'{self.type}+{self.connector}'
-        else:
-            dialect = self.type
+        dialect = f"{self.type}+{self.connector}" if self.connector else self.type
 
-        database_url = '{}:{}@{}:{}/{}'.format(
+        database_url = "{}:{}@{}:{}/{}".format(
             self.user,
             self.password,
             self.host,
             self.port,
-            self.database
+            self.database,
         )
-        return dialect + '://' + database_url
+        return dialect + "://" + database_url

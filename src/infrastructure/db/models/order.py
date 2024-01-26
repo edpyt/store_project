@@ -5,7 +5,7 @@ from sqlalchemy_utils import ChoiceType
 
 from src.core.models.enums.order_status import Status
 from src.infrastructure.db.models.base import (
-    BaseModelCreatedUpdated, BaseModelUUID
+    BaseModelCreatedUpdated, BaseModelUUID,
 )
 
 

@@ -14,13 +14,13 @@ convention = {
 
 
 class BaseModel(DeclarativeBase):
-    """Base SQLAlchemy model"""
+    """Base SQLAlchemy model."""
 
     metadata: MetaData = MetaData(naming_convention=convention)
 
 
 class BaseModelUUID(BaseModel):
-    """Base model with uuid primary key field"""
+    """Base model with uuid primary key field."""
 
     __abstract__ = True
 
@@ -28,13 +28,13 @@ class BaseModelUUID(BaseModel):
 
 
 class BaseModelCreatedUpdated(BaseModel):
-    """Base model with timestamp created and updated fields"""
+    """Base model with timestamp created and updated fields."""
 
     __abstract__ = True
 
     created_at: Mapped[datetime] = mapped_column(
-        nullable=False, server_default=sql.func.now()
+        nullable=False, server_default=sql.func.now(),
     )
     updated_at: Mapped[datetime] = mapped_column(
-        nullable=False, server_default=sql.func.now(), onupdate=sql.func.now()
+        nullable=False, server_default=sql.func.now(), onupdate=sql.func.now(),
     )

@@ -22,12 +22,7 @@ jobs:
       - name: Run mypy
         run: mypy . 
 
-      - name: Install flake8
-        run: pip install flake8
-      - name: Run flake8
-        run: flake8 .
-      
       - name: Install ruff
         run: pip install ruff
       - name: Run ruff
-        run: ruff .
+        run: ruff check . --ignore=I,EM,FBT,TRY003,S101,D1,FA,ANN101,PGH003 --fixable=ALL --select=ALL --unsafe-fixes --exclude migrations,tests
