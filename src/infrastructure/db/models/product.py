@@ -9,4 +9,4 @@ from src.infrastructure.db.models.base import (
 class Product(BaseModelUUID, BaseModelCreatedUpdated):
     __tablename__ = "product"
 
-    name: Mapped[str] = mapped_column(String(255))
+    title: Mapped[str] = mapped_column(String(255))
