@@ -13,8 +13,8 @@ from src.infrastructure.db.main import build_async_engine
 
 @pytest.fixture(name="path", scope="session")
 def config_path() -> str:
-    path: str | None = Path(__file__).parent / 'utils/config/test_config.yml'
-    return path
+    path = Path(__file__).parent / "utils/config/test_config.yml"
+    return str(path)
 
 
 @pytest.fixture(scope="session")
