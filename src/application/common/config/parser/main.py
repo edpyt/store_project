@@ -1,8 +1,8 @@
 from pathlib import Path
 from typing import Literal
 
-from src.common.config.models.main import Config
-from src.common.config.parser.config_reader import read_config
+from src.application.common.config import Config
+from src.application.common.config.parser.config_reader import read_config
 from src.infrastructure.db.config import DBConfig
 
 

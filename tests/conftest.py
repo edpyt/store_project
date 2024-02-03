@@ -1,4 +1,4 @@
-import os
+from pathlib import Path
 from typing import AsyncGenerator
 
 import pytest
@@ -6,17 +6,14 @@ import pytest_asyncio
 from sqlalchemy.ext.asyncio.engine import AsyncEngine
 from sqlalchemy.ext.asyncio.session import AsyncSession
 
-from src.common.config.parser.main import load_config
-from src.infrastructure.db import build_async_engine
+from src.application.common.config.parser import load_config
 from src.infrastructure.db.config import DBConfig
+from src.infrastructure.db.main import build_async_engine
 
 
 @pytest.fixture(name="path", scope="session")
 def config_path() -> str:
-    path: str | None = os.getenv("CONFIG_PATH")
-
-    assert path, "Not found CONFIG_PATH environment"
-
+    path: str | None = Path(__file__).parent / 'utils/config/test_config.yml'
     return path
 
 
@@ -27,7 +24,6 @@ def db_config(path: str) -> DBConfig:
 
 @pytest_asyncio.fixture(scope="session")
 async def engine(db_config: DBConfig) -> AsyncEngine:
-    # TODO: Refactor function
     return await anext(build_async_engine(db_config))
 
 

@@ -7,7 +7,7 @@ from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
 
 from alembic import context
-from src.common.config.parser.main import load_config
+from src.application.common.config.parser.main import load_config
 
 from src.infrastructure.db.models import BaseModel
 
@@ -17,9 +17,7 @@ config = context.config
 
 config.set_main_option(
     "sqlalchemy.url",
-    load_config(
-        os.environ.get("CONFIG_PATH"), type_config="db",
-    ).full_url,  # type: ignore
+    load_config(os.environ.get('CONFIG_PATH'), type_config='db').full_url
 )
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
