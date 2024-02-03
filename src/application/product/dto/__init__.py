@@ -1,3 +1,3 @@
-from .products import Product
+from .products import Product  # noqa: F401
 
 __all___ = ("Product",)

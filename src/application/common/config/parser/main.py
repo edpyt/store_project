@@ -7,7 +7,8 @@ from src.infrastructure.db.config import DBConfig
 
 
 def load_config(
-    path: str | None = None, type_config: Literal["all", "db"] = "all",
+    path: str | None = None,
+    type_config: Literal["all", "db"] = "all",
 ) -> Config | DBConfig:
     if path is None:
         path = "./config_dist/dev_config.yml"

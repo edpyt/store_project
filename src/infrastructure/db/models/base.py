@@ -33,8 +33,11 @@ class BaseModelCreatedUpdated(BaseModel):
     __abstract__ = True
 
     created_at: Mapped[datetime] = mapped_column(
-        nullable=False, server_default=sql.func.now(),
+        nullable=False,
+        server_default=sql.func.now(),
     )
     updated_at: Mapped[datetime] = mapped_column(
-        nullable=False, server_default=sql.func.now(), onupdate=sql.func.now(),
+        nullable=False,
+        server_default=sql.func.now(),
+        onupdate=sql.func.now(),
     )

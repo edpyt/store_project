@@ -2,7 +2,8 @@ from sqlalchemy import String
 from sqlalchemy.orm import Mapped, mapped_column
 
 from src.infrastructure.db.models.base import (
-    BaseModelCreatedUpdated, BaseModelUUID,
+    BaseModelCreatedUpdated,
+    BaseModelUUID,
 )
 
 
