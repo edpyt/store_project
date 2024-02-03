@@ -1,7 +1,10 @@
 from litestar import Litestar
 
-from .routes import all_routes
+from src.presentation.api.routes import setup_routes
 
 
 def build_app() -> Litestar:
-    return Litestar(all_routes)
+    app = Litestar()
+    setup_routes(app)
+
+    return app

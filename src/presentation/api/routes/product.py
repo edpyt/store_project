@@ -2,5 +2,5 @@ from litestar import get
 
 
 @get("/product/all")
-def get_all_products() -> None:
+async def get_all_products() -> list:
     return []
