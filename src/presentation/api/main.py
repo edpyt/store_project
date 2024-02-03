@@ -1,5 +1,7 @@
-from fastapi import FastAPI
+from litestar import Litestar
+
+from .routes import all_routes
 
 
-def build_app() -> FastAPI:
-    return FastAPI()
+def build_app() -> Litestar:
+    return Litestar(all_routes)
