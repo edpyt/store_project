@@ -16,7 +16,7 @@ class Product(BaseModelUUID, BaseModelCreatedUpdated):
     cost: Mapped[Decimal] = mapped_column()
     weight: Mapped[float] = mapped_column()
 
-    __table_args__ = (
+    __table_args__ = (  # type: ignore
         CheckConstraint(cost >= 0, name="check_cost_positive"),
-        {}
+        {},
     )

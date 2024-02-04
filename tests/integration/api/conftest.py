@@ -27,4 +27,4 @@ async def created_product(session: AsyncSession) -> dto.ProductDTO:
     
     session.add(product)
 
-    return dto.ProductDTO()
+    return dto.ProductDTO()  # type: ignore
