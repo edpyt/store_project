@@ -7,5 +7,5 @@ class GetProductsHandler(QueryHandler):
     def __init__(self, product_reader: ProductReader) -> None:
         self._product_reader = product_reader
 
-    async def __call__(self) -> list[dto.Product]:
+    async def __call__(self) -> list[dto.ProductDTO]:
         return await self._product_reader.get_products()

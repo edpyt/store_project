@@ -1,3 +1,3 @@
-from .products import Product  # noqa: F401
+from .products import ProductDTO  # noqa: F401
 
-__all___ = ("Product",)
+__all___ = ("ProductDTO",)
