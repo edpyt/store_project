@@ -1,5 +1,6 @@
 from decimal import Decimal
-from sqlalchemy import String
+
+from sqlalchemy import CheckConstraint, String
 from sqlalchemy.orm import Mapped, mapped_column
 
 from src.infrastructure.db.models.base import (
@@ -13,3 +14,9 @@ class Product(BaseModelUUID, BaseModelCreatedUpdated):
 
     title: Mapped[str] = mapped_column(String(255))
     cost: Mapped[Decimal] = mapped_column()
+    weight: Mapped[float] = mapped_column()
+
+    __table_args__ = (
+        CheckConstraint(cost >= 0, name="check_cost_positive"),
+        {}
+    )

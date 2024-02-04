@@ -25,3 +25,6 @@ async def client(app: Litestar) -> AsyncGenerator[AsyncTestClient, None]:
 async def created_product(session: AsyncSession) -> dto.ProductDTO:
     product = Product(title="milk", cost=.5, weight=1000)
     
+    session.add(product)
+
+    return dto.ProductDTO()

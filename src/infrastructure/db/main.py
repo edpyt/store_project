@@ -1,8 +1,6 @@
 from typing import AsyncGenerator
-from contextlib import asynccontextmanager
 
-from sqlalchemy.ext.asyncio.engine import create_async_engine, AsyncEngine
-from sqlalchemy.ext.asyncio.session import AsyncSession
+from sqlalchemy.ext.asyncio import create_async_engine, AsyncEngine, AsyncSession, async_sessionmaker
 
 from src.infrastructure.db.config import DBConfig
 
@@ -17,9 +15,8 @@ async def build_async_engine(
         await engine.dispose()
 
 
-@asynccontextmanager
-async def db_async_session(
-    engine: AsyncEngine,
-) -> AsyncGenerator[AsyncSession, None]:
-    async with engine.begin() as session:
+async def db_async_session(engine: AsyncEngine) -> AsyncGenerator[AsyncSession, None]:
+    session_factory = async_sessionmaker(bind=engine, autoflush=False, expire_on_commit=False)
+
+    async with session_factory() as session:
         yield session

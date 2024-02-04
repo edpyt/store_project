@@ -1,8 +1,8 @@
 """init migrations
 
-Revision ID: 0fec13338125
+Revision ID: fe7b2bacfa4a
 Revises: 
-Create Date: 2024-02-04 22:06:58.038199
+Create Date: 2024-02-04 22:33:48.436572
 
 """
 from typing import Sequence, Union
@@ -14,9 +14,8 @@ import sqlalchemy_utils
 from src.application.order.enums.order_status import Status
 
 
-
 # revision identifiers, used by Alembic.
-revision: str = '0fec13338125'
+revision: str = 'fe7b2bacfa4a'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -34,9 +33,11 @@ def upgrade() -> None:
     op.create_table('product',
     sa.Column('title', sa.String(length=255), nullable=False),
     sa.Column('cost', sa.Numeric(), nullable=False),
+    sa.Column('weight', sa.Float(), nullable=False),
     sa.Column('id', sa.Uuid(), nullable=False),
     sa.Column('created_at', sa.DateTime(), server_default=sa.text('now()'), nullable=False),
     sa.Column('updated_at', sa.DateTime(), server_default=sa.text('now()'), nullable=False),
+    sa.CheckConstraint('cost >= 0', name=op.f('ck_product_check_cost_positive')),
     sa.PrimaryKeyConstraint('id', name=op.f('pk_product'))
     )
     # ### end Alembic commands ###
