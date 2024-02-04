@@ -4,5 +4,5 @@ from src.application.common.dto import DTO
 
 
 @dataclass
-class Product(DTO):
+class ProductDTO(DTO):
     title: str

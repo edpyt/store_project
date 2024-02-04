@@ -7,7 +7,7 @@ from src.infrastructure.db.repositories.base import SQLAlchemyRepo
 
 
 class ProductReaderImpl(SQLAlchemyRepo, ProductReader):
-    async def get_products(self) -> list[dto.Product]:
+    async def get_products(self) -> list[dto.ProductDTO]:
         stmt = select(Product)
-        result = await self._session.scalar(stmt)
+        result = await self._session.scalars(stmt)
         return list(map(dto.Product, result))
