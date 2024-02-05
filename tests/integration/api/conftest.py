@@ -3,7 +3,6 @@ from typing import AsyncGenerator
 import pytest_asyncio
 from litestar import Litestar
 from litestar.testing import AsyncTestClient
-from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.application.product import dto
 from src.infrastructure.db.models.product import Product
@@ -22,11 +21,9 @@ async def client(app: Litestar) -> AsyncGenerator[AsyncTestClient, None]:
 
 
 @pytest_asyncio.fixture
-async def created_product(session: AsyncSession) -> dto.ProductDTO:
-    product = Product(title="milk", price=0.5, weight=1000)
-
-    session.add(product)
-
+async def created_product_dto(created_product: Product) -> dto.ProductDTO:
     return dto.ProductDTO(
-        title=product.title, price=product.price, weight=product.weight
+        title=created_product.title,
+        price=created_product.price,
+        weight=created_product.weight,
     )  # type: ignore

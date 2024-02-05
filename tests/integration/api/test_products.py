@@ -15,8 +15,8 @@ async def test_get_all_products_without_created(client: AsyncClient):
 
 @pytest.mark.asyncio
 async def test_get_all_products_with_created(
-    client: AsyncClient,  created_product: ProductDTO
+    client: AsyncClient,  created_product_dto: ProductDTO
 ):
     response = await client.get("/product/all")
 
-    assert response.json() == [asdict(created_product)]
+    assert response.json() == [asdict(created_product_dto)]
