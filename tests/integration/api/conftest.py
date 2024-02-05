@@ -23,8 +23,10 @@ async def client(app: Litestar) -> AsyncGenerator[AsyncTestClient, None]:
 
 @pytest_asyncio.fixture
 async def created_product(session: AsyncSession) -> dto.ProductDTO:
-    product = Product(title="milk", cost=.5, weight=1000)
-    
+    product = Product(title="milk", price=0.5, weight=1000)
+
     session.add(product)
 
-    return dto.ProductDTO()  # type: ignore
+    return dto.ProductDTO(
+        title=product.title, price=product.price, weight=product.weight
+    )  # type: ignore

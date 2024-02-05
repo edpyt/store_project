@@ -13,10 +13,10 @@ class Product(BaseModelUUID, BaseModelCreatedUpdated):
     __tablename__ = "product"
 
     title: Mapped[str] = mapped_column(String(255))
-    cost: Mapped[Decimal] = mapped_column()
+    price: Mapped[Decimal] = mapped_column()
     weight: Mapped[float] = mapped_column()
 
     __table_args__ = (  # type: ignore
-        CheckConstraint(cost >= 0, name="check_cost_positive"),
+        CheckConstraint(price >= 0, name="check_cost_positive"),
         {},
     )
