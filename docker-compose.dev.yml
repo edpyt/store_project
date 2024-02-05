@@ -5,7 +5,7 @@ services:
       dockerfile: ./Dockerfile
       args:
         POETRY_DEP_GROUP: "main"
-    command: echo "Hello, world!"
+    command: python -m src
     volumes:
       # for application reload and save
       - ./src:/store_project/src
