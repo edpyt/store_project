@@ -1,4 +1,7 @@
+from typing import AsyncGenerator
+
 from sqlalchemy import select
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.application.product import dto
 from src.application.product.interfaces import ProductReader
@@ -20,3 +23,9 @@ class ProductReaderImpl(SQLAlchemyRepo, ProductReader):
                 result.all(),
             )
         )
+
+
+async def create_product_reader_impl(
+    session: AsyncSession,
+) -> AsyncGenerator[ProductReader, None]:
+    yield ProductReaderImpl(session)
