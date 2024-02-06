@@ -26,12 +26,16 @@ def db_config(path: str) -> DBConfig:
 @pytest_asyncio.fixture(name="engine", scope="function")
 async def create_engine(db_config: DBConfig) -> AsyncEngine:
     engine = await anext(build_async_engine(db_config))
-    
-    async with engine.begin() as conn:
-        await conn.run_sync(BaseModel.metadata.create_all)
+
     yield engine
     async with engine.begin() as conn:
         await conn.run_sync(BaseModel.metadata.drop_all)
+
+
+@pytest_asyncio.fixture(autouse=True)
+async def create_all(engine: AsyncEngine) -> None:
+    async with engine.begin() as conn:
+        await conn.run_sync(BaseModel.metadata.create_all)
 
 
 @pytest_asyncio.fixture
