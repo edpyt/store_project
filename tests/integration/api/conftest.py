@@ -7,6 +7,7 @@ from litestar.testing import AsyncTestClient
 from src.application.product import dto
 from src.infrastructure.db.models.product import Product
 from src.presentation.api.main import build_app
+from tests.utils.di import setup_test_di
 
 
 @pytest_asyncio.fixture
@@ -15,7 +16,10 @@ async def app() -> Litestar:
 
 
 @pytest_asyncio.fixture
-async def client(app: Litestar) -> AsyncGenerator[AsyncTestClient, None]:
+async def client(
+    app: Litestar, path: str
+) -> AsyncGenerator[AsyncTestClient, None]:
+    setup_test_di(app, path)
     async with AsyncTestClient(app=app) as ac:
         yield ac
 
