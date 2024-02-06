@@ -16,6 +16,6 @@ from src.infrastructure.db.repositories.product import (
     dependencies={"product_reader": Provide(create_product_reader_impl)},
 )
 async def get_all_products(
-    product_reader: Annotated[ProductReader, Dependency(skip_validation=True)],
+    product_reader: Annotated[ProductReader, Dependency(skip_validation=True)]
 ) -> list[dto.ProductDTO]:
     return await product_reader.get_products()

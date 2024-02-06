@@ -8,11 +8,7 @@ from src.presentation.api.routes import setup_routes
 
 
 def build_app() -> Litestar:
-    app = Litestar()
-
-    setup_di(app)
-    setup_routes(app)
-
+    app = Litestar(on_startup=[setup_di, setup_routes])
     return app
 
 
