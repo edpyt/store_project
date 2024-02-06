@@ -48,5 +48,6 @@ async def created_product(session: AsyncSession) -> Product:
 
     session.add(product)
     await session.commit()
+    await session.refresh(product)
 
     return product
