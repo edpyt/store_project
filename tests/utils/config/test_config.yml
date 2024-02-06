@@ -2,7 +2,7 @@ db:
   type: postgresql
   connector: asyncpg
   host: localhost  # POSTGRES_HOST
-  port: 5432  # POSTGRES_PORT
+  port: 5435  # POSTGRES_PORT
   user: postgres  # POSTGRES_USER
   password: postgres  # POSTGRES_PASSWORD
   database: order  # POSTGRES_DB

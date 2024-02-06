@@ -9,6 +9,7 @@ from src.application.common.config.parser import load_config
 from src.infrastructure.db.config import DBConfig
 from src.infrastructure.db.main import build_async_engine
 from src.infrastructure.db.models.base import BaseModel
+from src.infrastructure.db.models.product import Product
 
 
 @pytest.fixture(name="path", scope="session")
@@ -25,12 +26,16 @@ def db_config(path: str) -> DBConfig:
 @pytest_asyncio.fixture(name="engine", scope="function")
 async def create_engine(db_config: DBConfig) -> AsyncEngine:
     engine = await anext(build_async_engine(db_config))
-    
-    async with engine.begin() as conn:
-        await conn.run_sync(BaseModel.metadata.create_all)
+
     yield engine
     async with engine.begin() as conn:
         await conn.run_sync(BaseModel.metadata.drop_all)
+
+
+@pytest_asyncio.fixture(autouse=True)
+async def create_all(engine: AsyncEngine) -> None:
+    async with engine.begin() as conn:
+        await conn.run_sync(BaseModel.metadata.create_all)
 
 
 @pytest_asyncio.fixture
@@ -39,3 +44,14 @@ async def session(engine: AsyncEngine) -> AsyncGenerator[AsyncSession, None]:
 
     async with session_factory() as session:
         yield session
+
+
+@pytest_asyncio.fixture
+async def created_product(session: AsyncSession) -> Product:
+    product = Product(title="milk", price=0.5, weight=1000)
+
+    session.add(product)
+    await session.commit()
+    await session.refresh(product)
+
+    return product
