@@ -4,11 +4,11 @@ from litestar import Litestar
 import uvicorn
 
 from src.infrastructure.di.main import setup_di
-from src.presentation.api.routes import setup_routes
+from src.presentation.api.routes import setup_controllers
 
 
 def build_app() -> Litestar:
-    app = Litestar(on_startup=[setup_di, setup_routes])
+    app = Litestar(on_startup=[setup_di, setup_controllers])
     return app
 
 

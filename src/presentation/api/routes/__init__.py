@@ -1,7 +1,7 @@
 from litestar import Litestar
 
-from .product import get_all_products
+from .product import ProductController
 
 
-def setup_routes(app: Litestar) -> None:
-    app.register(get_all_products)
+def setup_controllers(app: Litestar) -> None:
+    app.register(ProductController)
