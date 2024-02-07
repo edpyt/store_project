@@ -1,6 +1,6 @@
 import pytest
-from src.application.product import dto
 
+from src.application.product import dto
 from src.application.product.interfaces import ProductReader
 from src.infrastructure.db.models.product import Product
 
