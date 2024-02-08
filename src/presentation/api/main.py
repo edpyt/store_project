@@ -3,7 +3,7 @@ import logging
 from litestar import Litestar
 import uvicorn
 
-from src.infrastructure.di.main import setup_di
+from src.presentation.api.di.main import setup_di
 from src.presentation.api.routes import setup_controllers
 
 

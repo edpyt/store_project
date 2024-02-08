@@ -5,11 +5,11 @@ import pytest
 import pytest_asyncio
 from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, async_sessionmaker
 
-from src.application.common.config.parser import load_config
 from src.infrastructure.db.config import DBConfig
-from src.infrastructure.db.main import build_async_engine
 from src.infrastructure.db.models.base import BaseModel
 from src.infrastructure.db.models.product import Product
+from src.presentation.api.config.parser import load_config
+from src.presentation.api.di.db import build_async_engine
 
 
 @pytest.fixture(name="path", scope="session")
@@ -40,7 +40,9 @@ async def create_all(engine: AsyncEngine) -> None:
 
 @pytest_asyncio.fixture
 async def session(engine: AsyncEngine) -> AsyncGenerator[AsyncSession, None]:
-    session_factory = async_sessionmaker(bind=engine, autoflush=False, expire_on_commit=False)
+    session_factory = async_sessionmaker(
+        bind=engine, autoflush=False, expire_on_commit=False
+    )
 
     async with session_factory() as session:
         yield session
