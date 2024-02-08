@@ -2,8 +2,8 @@ from litestar import Litestar
 from litestar.di import Provide
 
 from src.application.common.config.parser.main import load_config
-from src.infrastructure.db.main import build_async_engine, db_async_session
-from src.infrastructure.db.repositories.product import create_product_reader_impl
+from src.infrastructure.di.db import build_async_engine, db_async_session
+from src.infrastructure.di.product import create_product_reader_impl
 
 
 def setup_di(app: Litestar) -> None:  # noqa: ARG001
