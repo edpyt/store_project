@@ -2,8 +2,8 @@ from pathlib import Path
 from typing import Literal
 
 from src.infrastructure.db.config import DBConfig
-from src.presentation.api.config.models import Config
-from src.presentation.api.config.parser import read_config
+from src.presentation.api.config.models.main import Config
+from src.presentation.api.config.parser.config_reader import read_config
 
 
 def load_config(

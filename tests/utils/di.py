@@ -1,7 +1,7 @@
 from litestar import Litestar
 from litestar.di import Provide
 
-from src.application.common.config.parser.main import load_config
+from src.presentation.api.config.parser.main import load_config
 
 
 def setup_test_di(app: Litestar, path: str) -> None:
