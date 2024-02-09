@@ -8,14 +8,13 @@ from src.presentation.api.routes import setup_controllers
 
 
 def build_app() -> Litestar:
-    app = Litestar(on_startup=[setup_di, setup_controllers])
-    return app
+    return Litestar(on_startup=[setup_di, setup_controllers])
 
 
 async def run_app(app: Litestar) -> None:
     config = uvicorn.Config(
         app=app,
-        host="0.0.0.0",
+        host="0.0.0.0",  # noqa: S104
         port=8000,
         log_level=logging.INFO,
         log_config=None,

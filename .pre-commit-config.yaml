@@ -29,3 +29,5 @@ repos:
       - id: mypy
         exclude: "tools/"
         args: ["--strict"]
+        additional_dependencies:
+          - "types-pyyaml"

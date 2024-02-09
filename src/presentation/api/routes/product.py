@@ -12,10 +12,10 @@ class ProductController(Controller):
 
     @get("/all")
     async def get_all_products(
-        product_reader: Annotated[ProductReader, Dependency(skip_validation=True)]
+        self,
+        product_reader: Annotated[ProductReader, Dependency(skip_validation=True)],
     ) -> list[dto.ProductDTO]:
-        """
-        Get all products endpoint
+        """Get all products endpoint.
 
         :param product_reader: ProductReader depends object
         """
@@ -23,13 +23,13 @@ class ProductController(Controller):
 
 
     @post("/create/")
-    async def create_product(
+    async def create_product(  # type: ignore
+        self,
         product: dto.ProductDTO,
-        product_reader: Annotated[ProductReader, Dependency(skip_validation=True)]
+        product_reader: Annotated[ProductReader, Dependency(skip_validation=True)],
     ) -> dict[str, str]:
-        """
-        Create product endpoint
-        
+        """Create product endpoint.
+
         :param product: Product DTO object
         :param product_reader: ProductReader depends object
         """

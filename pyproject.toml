@@ -21,8 +21,9 @@ pytest = "^7.4.4"
 httpx = "^0.26.0"
 
 
-[tool.poetry.group.dev.dependencies]
+[tool.poetry.group.lint.dependencies]
 pre-commit = "^3.6.0"
+types-pyyaml = "^6.0.12.12"
 
 [build-system]
 requires = ["poetry-core"]
@@ -30,4 +31,4 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.mypy]
 ignore_missing_imports = true
-exclude = ['migrations']
+exclude = ["migrations", ".venv"]
