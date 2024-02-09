@@ -2,7 +2,7 @@ from datetime import datetime
 from uuid import UUID, uuid4
 
 from sqlalchemy import MetaData, sql
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, registry
 
 convention = {
     "ix": "ix_%(column_0_label)s",
@@ -12,11 +12,14 @@ convention = {
     "pk": "pk_%(table_name)s",
 }
 
+mapper_registry = registry(metadata=MetaData(naming_convention=convention))
+
 
 class BaseModel(DeclarativeBase):
     """Base SQLAlchemy model."""
 
-    metadata: MetaData = MetaData(naming_convention=convention)
+    registry = mapper_registry  # type: ignore
+    metadata: MetaData = mapper_registry.metadata
 
 
 class BaseModelUUID(BaseModel):
