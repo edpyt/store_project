@@ -31,3 +31,11 @@ repos:
         args: ["--strict"]
         additional_dependencies:
           - "types-pyyaml"
+  - repo: https://github.com/pycqa/flake8
+    rev: ''  # pick a git hash / tag to point to
+    hooks:
+      - id: flake8
+        name: test-aaa
+        args: ["--select=AAA", "tests"]
+        additional_dependencies:
+          - "flake8-aaa"

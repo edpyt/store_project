@@ -28,6 +28,7 @@ types-pyyaml = "^6.0.12.12"
 
 [tool.poetry.group.dev.dependencies]
 types-pyyaml = "^6.0.12.12"
+flake8-aaa = "^0.17.0"
 
 [build-system]
 requires = ["poetry-core"]
