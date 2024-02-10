@@ -41,7 +41,7 @@ async def create_all(engine: AsyncEngine) -> None:
 @pytest_asyncio.fixture
 async def session(engine: AsyncEngine) -> AsyncGenerator[AsyncSession, None]:
     session_factory = async_sessionmaker(
-        bind=engine, autoflush=False, expire_on_commit=False
+        bind=engine, autoflush=False, expire_on_commit=False,
     )
 
     async with session_factory() as session:

@@ -17,7 +17,7 @@ async def app() -> Litestar:
 
 @pytest_asyncio.fixture
 async def client(
-    app: Litestar, path: str
+    app: Litestar, path: str,
 ) -> AsyncGenerator[AsyncTestClient, None]:
     setup_test_di(app, path)
     async with AsyncTestClient(app=app) as ac:

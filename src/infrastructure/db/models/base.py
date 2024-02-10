@@ -15,10 +15,10 @@ convention = {
 mapper_registry = registry(metadata=MetaData(naming_convention=convention))
 
 
-class BaseModel(DeclarativeBase):
+class BaseModel(DeclarativeBase):  # type: ignore
     """Base SQLAlchemy model."""
 
-    registry = mapper_registry  # type: ignore
+    registry = mapper_registry
     metadata: MetaData = mapper_registry.metadata
 
 
