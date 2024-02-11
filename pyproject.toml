@@ -37,3 +37,6 @@ build-backend = "poetry.core.masonry.api"
 [tool.mypy]
 ignore_missing_imports = true
 exclude = ["migrations", "tests"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"

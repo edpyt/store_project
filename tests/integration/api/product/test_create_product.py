@@ -3,7 +3,6 @@ from httpx import AsyncClient
 
 
 @pytest.mark.skip
-@pytest.mark.asyncio
 async def test_create_product(client: AsyncClient) -> None:
     response = await client.post(
         "/product/create/",
@@ -20,7 +19,6 @@ async def test_create_product(client: AsyncClient) -> None:
     {"dsad": .1},
     [1, 2, 3, 4],
 ])
-@pytest.mark.asyncio
 async def test_wrong_create_product(
     client: AsyncClient, create_product_data: dict[str, str | float] | list[int],
 ) -> None:

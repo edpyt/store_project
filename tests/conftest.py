@@ -48,11 +48,9 @@ async def create_engine(db_config: DBConfig) -> AsyncGenerator[AsyncEngine, None
 async def tables(engine: AsyncEngine) -> AsyncGenerator[None, None]:
     async with engine.connect() as conn:
         await conn.run_sync(BaseModel.metadata.create_all)
-
-        try:
-            yield
-        finally:
-            await conn.run_sync(BaseModel.metadata.drop_all)
+        await conn.commit()
+        yield conn
+        await conn.run_sync(BaseModel.metadata.drop_all)
 
 
 @pytest_asyncio.fixture(scope="function")
