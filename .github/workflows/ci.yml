@@ -9,7 +9,7 @@ on:
     branches: ["main"]
 
 env:
-  PYTHON_VERSION=3.11
+  PYTHON_VERSION: 3.11
 
 jobs:
   build:
@@ -50,11 +50,11 @@ jobs:
       postgres:
         image: postgres
         env:
-          POSTGRES_USER=postgres
-          POSTGRES_PASSWORD=postgres
-          POSTGRES_DB=order
-          POSTGRES_HOST=test-db
-          POSTGRES_PORT=5432
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: order
+          POSTGRES_HOST: test-db
+          POSTGRES_PORT: 5432
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
