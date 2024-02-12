@@ -1,4 +1,4 @@
-name: Lint
+name: Continious Integration
 
 on:
   workflow_call:
@@ -6,7 +6,7 @@ on:
   pull_request:
     branches: ["main", "dev"]
   push:
-    branches: ["main", "dev"]
+    branches: ["main"]
 
 jobs:
   build:
