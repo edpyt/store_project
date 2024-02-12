@@ -28,6 +28,10 @@ jobs:
       - name: Install dependencies
         run: poetry install --with lint,test
 
+    strategy:
+      matrix:
+          python-version: ['3.11']
+
   lint:
     needs: build
     runs-on: ubuntu-latest
@@ -45,9 +49,10 @@ jobs:
         run: poetry run pre-commit run --all-files
 
   test:
+    needs: build
     runs-on: ubuntu-latest
     services:
-      postgres:
+      test-db:
         image: postgres
         env:
           POSTGRES_USER: postgres
@@ -61,12 +66,16 @@ jobs:
           --health-timeout 5s
           --health-retries 5
         ports:
-          - 5435:5435
+          - 5435:5432
     steps:
       - uses: actions/checkout@v3
       - name: Install poetry
         run: pip install poetry
       - name: Set up Python ${{ env.PYTHON_VERSION }}
         uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: "poetry"
+          cache-dependency-path: poetry.lock
       - name: Run tests
         run: poetry run pytest tests -s -vv
