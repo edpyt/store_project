@@ -1,5 +1,4 @@
 from sqlalchemy import Column
-
 from sqlalchemy_utils import ChoiceType
 
 from src.application.order.enums import Status

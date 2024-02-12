@@ -1,15 +1,18 @@
 import logging
 
-from litestar import Litestar
 import uvicorn
+from litestar import Litestar
 
-from src.infrastructure.di.main import setup_di
-from src.presentation.api.routes import setup_routes
+from src.presentation.api.di.main import setup_di
+from src.presentation.api.exceptions.exc import all_exceptions_handler
+from src.presentation.api.routes import setup_controllers
 
 
 def build_app() -> Litestar:
-    app = Litestar(on_startup=[setup_di, setup_routes])
-    return app
+    return Litestar(
+        on_startup=[setup_di, setup_controllers],
+        exception_handlers={Exception: all_exceptions_handler},
+    )
 
 
 async def run_app(app: Litestar) -> None:

@@ -1,9 +1,9 @@
 from pathlib import Path
-from typing import Literal
+from typing import Any, Literal
 
-from src.application.common.config import Config
-from src.application.common.config.parser.config_reader import read_config
 from src.infrastructure.db.config import DBConfig
+from src.presentation.api.config.models.main import Config
+from src.presentation.api.config.parser.config_reader import read_config
 
 
 def load_config(
@@ -14,7 +14,7 @@ def load_config(
         path = "./config_dist/dev_config.yml"
     path_obj = Path(path)
 
-    config_data: dict = read_config(path_obj)
+    config_data: dict[str, dict[str, Any]] = read_config(path_obj)
     db_config: DBConfig = DBConfig(**config_data["db"])
 
     config: Config = Config(db=db_config)

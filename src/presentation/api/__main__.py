@@ -6,7 +6,7 @@ async def main() -> None:
     await run_app(app)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     import asyncio
 
     asyncio.run(main())
