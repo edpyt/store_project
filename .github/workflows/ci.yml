@@ -8,20 +8,21 @@ on:
   push:
     branches: ["main"]
 
+env:
+  PYTHON_VERSION=3.11
+
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-          python-version: ['3.11']
+
     steps:
       - uses: actions/checkout@v3
       - name: Install poetry
         run: pip install poetry
-      - name: Set up Python ${{ matrix.python-version }}
+      - name: Set up Python ${{ env.PYTHON_VERSION }}
         uses: actions/setup-python@v4
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: ${{ env.PYTHON_VERSION }}
           cache: "poetry"
           cache-dependency-path: poetry.lock
       - name: Install dependencies
@@ -30,17 +31,14 @@ jobs:
   lint:
     needs: build
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-          python-version: ['3.11']
     steps:
       - uses: actions/checkout@v3
       - name: Install poetry
         run: pip install poetry
-      - name: Set up Python ${{ matrix.python-version }}
+      - name: Set up Python ${{ env.PYTHON_VERSION }}
         uses: actions/setup-python@v4
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: ${{ env.PYTHON_VERSION }}
           cache: "poetry"
           cache-dependency-path: poetry.lock
       - name: Lint with pre-commit
@@ -48,14 +46,27 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-          python-version: ['3.11']
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_USER=postgres
+          POSTGRES_PASSWORD=postgres
+          POSTGRES_DB=order
+          POSTGRES_HOST=test-db
+          POSTGRES_PORT=5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5435:5435
     steps:
       - uses: actions/checkout@v3
       - name: Install poetry
         run: pip install poetry
-      - name: Set up Python ${{ matrix.python-version }}
+      - name: Set up Python ${{ env.PYTHON_VERSION }}
         uses: actions/setup-python@v4
       - name: Run tests
         run: poetry run pytest tests -s -vv
