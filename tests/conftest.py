@@ -49,8 +49,10 @@ async def tables(engine: AsyncEngine) -> AsyncGenerator[None, None]:
     async with engine.connect() as conn:
         await conn.run_sync(BaseModel.metadata.create_all)
         await conn.commit()
-        yield conn
-        await conn.run_sync(BaseModel.metadata.drop_all)
+        try:
+            yield conn
+        finally:
+            await conn.run_sync(BaseModel.metadata.drop_all)
 
 
 @pytest_asyncio.fixture(scope="function")
@@ -70,11 +72,15 @@ async def session(engine: AsyncEngine, tables: None) -> AsyncGenerator[AsyncSess
 
 
 @pytest_asyncio.fixture
-async def created_product(session: AsyncSession) -> Product:
-    product = Product(title="milk", price=0.5, weight=1000)
+async def created_product(engine: AsyncEngine) -> Product:
+    async with AsyncSession(engine) as session:
+        product = Product(title="milk", price=0.5, weight=1000)
 
-    session.add(product)
-    await session.commit()
-    await session.refresh(product)
+        session.add(product)
+        await session.commit()
+        await session.refresh(product)
 
-    return product
+        yield product
+
+        session.delete(product)
+        await session.commit()
