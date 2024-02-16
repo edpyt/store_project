@@ -20,7 +20,7 @@ async def app(path: str) -> AsyncGenerator[Litestar, None]:
 
 @pytest_asyncio.fixture
 async def client(
-    app: Litestar, tables: None
+    app: Litestar, tables: None,
 ) -> AsyncGenerator[AsyncTestClient, None]:
     async with AsyncTestClient(app=app) as ac:
         yield ac
@@ -28,7 +28,7 @@ async def client(
 
 @pytest_asyncio.fixture
 async def created_product_dto(
-    app: Litestar, session: AsyncSession, created_product: Product
+    app: Litestar, session: AsyncSession, created_product: Product,
 ) -> AsyncGenerator[dto.ProductDTO, None]:
     # Using same session for test client and created product
     app.dependencies["session"] = lambda: session

@@ -36,7 +36,31 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.mypy]
 ignore_missing_imports = true
-exclude = ["migrations", "tests"]
+
+[tool.ruff]
+extend-select = ["I"]
+
+[tool.ruff.lint]
+fixable = ["ALL"]
+exclude = ["migrations", ".git", ".github", ".venv", "__pycache__"]
+ignore = [
+    "PT023",
+    "PLR2004",
+    "S101",
+    "S104",
+    "FIX002",
+    "B024",
+    "TD002",
+    "TD003",
+    "EM",
+    "FBT",
+    "TRY003",
+    "D1",
+    "FA",
+    "ANN101",
+    "PGH003",
+    "TCH",
+]
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"

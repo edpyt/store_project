@@ -2,6 +2,7 @@ import logging
 
 import uvicorn
 from litestar import Litestar
+from litestar.openapi import OpenAPIConfig
 
 from src.presentation.api.controllers import setup_controllers
 from src.presentation.api.di.main import setup_di
@@ -12,6 +13,12 @@ def build_app() -> Litestar:
     return Litestar(
         on_startup=[setup_di, setup_controllers],
         exception_handlers={Exception: all_exceptions_handler},
+        openapi_config=OpenAPIConfig(
+            title="Simple Store Project",
+            version="0.0.1",
+            root_schema_site="swagger",
+            enabled_endpoints={"swagger"},
+        ),
     )
 
 

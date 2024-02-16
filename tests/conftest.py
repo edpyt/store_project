@@ -13,10 +13,9 @@ from src.presentation.api.config.parser import load_config
 from src.presentation.api.di.db import build_async_engine
 
 
-@pytest.fixture(scope='session')
+@pytest.fixture(scope="session")
 def event_loop():
-    """
-    Creates an instance of the default event loop for the test session.
+    """Creates an instance of the default event loop for the test session.
     """
     policy = asyncio.get_event_loop_policy()
     loop = policy.new_event_loop()

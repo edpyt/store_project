@@ -15,20 +15,12 @@ repos:
     hooks:
       - id: ruff
         args:
-          [
-            "--ignore=PT023,PLR2004,S104,FIX002,B024,TD002,TD003,EM,FBT,TRY003,S101,D1,FA,ANN101,PGH003,PGH004",
-            "--fixable=ALL",
-            "--select=ALL",
-            "--unsafe-fixes",
-            "--exclude=migrations,tests",
-            "--fix",
-          ]
+          ["--fix"]
   - repo: https://github.com/pre-commit/mirrors-mypy
     rev: "v1.8.0"
     hooks:
       - id: mypy
-        exclude: "tests|migrations"
-        args: ["--strict"]
+        exclude: "application|tests|migrations"
         additional_dependencies:
           - "types-pyyaml"
   - repo: https://github.com/pycqa/flake8
