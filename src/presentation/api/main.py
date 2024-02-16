@@ -3,9 +3,9 @@ import logging
 import uvicorn
 from litestar import Litestar
 
+from src.presentation.api.controllers import setup_controllers
 from src.presentation.api.di.main import setup_di
 from src.presentation.api.exceptions.exc import all_exceptions_handler
-from src.presentation.api.routes import setup_controllers
 
 
 def build_app() -> Litestar:

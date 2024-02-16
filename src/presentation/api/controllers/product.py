@@ -32,4 +32,3 @@ class ProductController(Controller):  # type: ignore[misc]
         :param product: Product DTO object
         :param product_reader: ProductReader depends object
         """
-        ...

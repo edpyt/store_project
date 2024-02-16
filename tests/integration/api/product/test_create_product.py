@@ -13,7 +13,6 @@ async def test_create_product(client: AsyncClient) -> None:
     assert response.json() == {"message": "Created product!"}
 
 
-@pytest.mark.skip
 @pytest.mark.parametrize("create_product_data", [
     {"tsti": "dsaj", "dsajdjsa": .1, "erd": "E"},
     {"dsad": .1},
