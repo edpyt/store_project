@@ -1,6 +1,4 @@
-from .price import Price
 from .product_id import ProductId
-from .title import Title
-from .weight import Weight
+from .product_property import ProductProperty
 
-__all__ = ("ProductId", "Title", "Price", "Weight")
+__all__ = ("ProductId", "ProductProperty")
