@@ -2,7 +2,6 @@ import pytest
 from httpx import AsyncClient
 
 
-@pytest.mark.skip
 async def test_create_product(client: AsyncClient) -> None:
     response = await client.post(
         "/product/create/",
