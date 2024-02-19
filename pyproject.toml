@@ -43,7 +43,7 @@ extend-select = ["I"]
 
 [tool.ruff.lint]
 fixable = ["ALL"]
-exclude = ["migrations", ".git", ".github", ".venv", "__pycache__"]
+exclude = ["migrations", ".git", ".github", ".venv", "__pycache__",]
 ignore = [
     "PT023",
     "PLR2004",

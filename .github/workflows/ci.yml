@@ -28,10 +28,6 @@ jobs:
       - name: Install dependencies
         run: poetry install --with lint,test
 
-    strategy:
-      matrix:
-          python-version: ['3.11']
-
   lint:
     needs: build
     runs-on: ubuntu-latest

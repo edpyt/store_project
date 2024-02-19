@@ -46,6 +46,4 @@ class CreateProductHandler(CommandHandler[CreateProduct, UUID]):
         await self._mediator.publish(product.pull_events())
         await self._uow.commit()
 
-        # TODO: add logger
-
         return command.product_id
