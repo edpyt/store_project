@@ -12,12 +12,12 @@ class OkResponse(Response):
         content: Any,
         *,
         background: BackgroundTask | BackgroundTasks | None = None,
-        cookies: ResponseCookies | None = None,
+        cookies: "ResponseCookies | None" = None,
         encoding: str = "utf-8",
-        headers: ResponseHeaders | None = None,
-        media_type: MediaType | OpenAPIMediaType | str | None = None,
+        headers: "ResponseHeaders | None" = None,
+        media_type: "MediaType | OpenAPIMediaType | str | None" = None,
         status_code: int | None = None,
-        type_encoders: TypeEncodersMap | None = None,
+        type_encoders: "TypeEncodersMap | None" = None,
     ) -> None:
         assert status_code in range(
             200, 300

@@ -40,5 +40,6 @@ class ProductController(Controller):  # type: ignore[misc]
         :param product_reader: ProductReader depends object
         """
         product_id = await mediator.send(create_product_command)
-        product = await mediator.query(GetProductById(product_id=product_id))
+        product = product_id
+        # product = await mediator.query(GetProductById(product_id=product_id))
         return OkResponse(product, status_code=201)

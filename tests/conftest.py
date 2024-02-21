@@ -6,17 +6,16 @@ import pytest
 import pytest_asyncio
 from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, async_sessionmaker
 
+from src.infrastructure.config_loader import load_config
 from src.infrastructure.db.config import DBConfig
 from src.infrastructure.db.models.base import BaseModel
 from src.infrastructure.db.models.product import Product
-from src.presentation.api.config.parser import load_config
 from src.presentation.api.di.db import build_async_engine
 
 
 @pytest.fixture(scope="session")
 def event_loop():
-    """Creates an instance of the default event loop for the test session.
-    """
+    """Creates an instance of the default event loop for the test session."""
     policy = asyncio.get_event_loop_policy()
     loop = policy.new_event_loop()
 
@@ -27,18 +26,21 @@ def event_loop():
 
 
 @pytest.fixture(name="path", scope="session")
-def config_path() -> str:
-    path = Path(__file__).parent / "utils/config/test_config.yml"
-    return str(path)
+def config_path() -> Path:
+    path = Path(__file__).parent / "utils/config/test_config.toml"
+    return path
 
 
 @pytest.fixture(scope="session")
-def db_config(path: str) -> DBConfig:
-    return load_config(path, "db")
+def db_config(path: Path) -> DBConfig:
+    config_data = load_config("db", path)
+    return DBConfig(**config_data)
 
 
 @pytest_asyncio.fixture(name="engine")
-async def create_engine(db_config: DBConfig) -> AsyncGenerator[AsyncEngine, None]:
+async def create_engine(
+    db_config: DBConfig,
+) -> AsyncGenerator[AsyncEngine, None]:
     engine = await anext(build_async_engine(db_config))
     yield engine
 
@@ -53,7 +55,9 @@ async def tables(engine: AsyncEngine) -> AsyncGenerator[None, None]:
 
 
 @pytest_asyncio.fixture(scope="function")
-async def session(engine: AsyncEngine, tables: None) -> AsyncGenerator[AsyncSession, None]:
+async def session(
+    engine: AsyncEngine, tables: None
+) -> AsyncGenerator[AsyncSession, None]:
     sessionmaker = async_sessionmaker(
         bind=engine,
         autoflush=False,
