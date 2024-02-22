@@ -3,7 +3,11 @@ from di.dependent import Dependent
 from didiator.interface.utils.di_builder import DiBuilder
 from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, async_sessionmaker
 
-from src.infrastructure.db.main import build_sa_engine, build_sa_session_factory
+from src.infrastructure.db.main import (
+    build_sa_engine,
+    build_sa_session,
+    build_sa_session_factory,
+)
 from src.infrastructure.di.constants import DiScope
 
 
@@ -17,3 +21,4 @@ def setup_db_factories(di_builder: DiBuilder) -> None:
             async_sessionmaker[AsyncSession],
         )
     )
+    di_builder.bind(bind_by_type(Dependent(build_sa_session, scope=DiScope.REQUEST), AsyncSession))

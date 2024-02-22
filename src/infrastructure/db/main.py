@@ -10,7 +10,9 @@ from sqlalchemy.ext.asyncio import (
 from src.infrastructure.db.config import DBConfig
 
 
-async def build_sa_engine(db_config: DBConfig) -> AsyncGenerator[AsyncEngine, None]:
+async def build_sa_engine(
+    db_config: DBConfig,
+) -> AsyncGenerator[AsyncEngine, None]:
     engine = create_async_engine(db_config.full_url, echo=True, pool_size=50)
     yield engine
 
@@ -24,3 +26,10 @@ def build_sa_session_factory(
         bind=engine, autoflush=False, expire_on_commit=False
     )
     return session_factory
+
+
+async def build_sa_session(
+    session_factory: async_sessionmaker[AsyncSession],
+) -> AsyncGenerator[AsyncSession, None]:
+    async with session_factory() as session:
+        yield session
