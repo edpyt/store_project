@@ -1,10 +1,16 @@
+from pathlib import Path
+
 from litestar import Litestar
 from litestar.di import Provide
 
-from src.presentation.api.config.parser.main import load_config
+from src.infrastructure.config_loader import load_config
+from src.infrastructure.db.config import DBConfig
 
 
-def setup_test_di(app: Litestar, path: str) -> None:
+def setup_test_di(app: Litestar, path: Path) -> None:
+    db_config_data = load_config("db", path)
+    db_config = DBConfig(**db_config_data)
+
     app.dependencies["db_config"] = Provide(
-        lambda: load_config(path, type_config="db"), sync_to_thread=False,
+        lambda: db_config, sync_to_thread=False,
     )

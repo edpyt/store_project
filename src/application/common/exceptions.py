@@ -7,5 +7,17 @@ class ApplicationError(AppException):
         return "An application exception"
 
 
+class UnexpectedError(ApplicationError):
+    ...
+
+
 class RepoError(ApplicationError):
+    ...
+
+
+class CommitError(UnexpectedError):
+    ...
+
+
+class RollbackError(UnexpectedError):
     ...

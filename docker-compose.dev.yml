@@ -11,11 +11,11 @@ services:
       - ./src:/store_project/src
       # config
       - type: "bind"
-        source: "./config_dist"
+        source: "./config"
         target: "/store_project/src/config"
         read_only: true
     environment:
-      - CONFIG_PATH=/store_project/src/config/dev_config.yml
+      - CONFIG_PATH=/store_project/src/config/config.toml
     depends_on:
       dev-db:
         condition: service_healthy
@@ -24,7 +24,7 @@ services:
     image: postgres:latest
     restart: on-failure
     env_file:
-      # Must be same vars as ./config_dist/dev_config.yml
+      # Must be same vars as ./config/config.toml
       - .dev.env
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -d $$POSTGRES_DB -U $$POSTGRES_USER"]
