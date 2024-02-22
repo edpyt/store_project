@@ -10,7 +10,7 @@ from src.infrastructure.config_loader import load_config
 from src.infrastructure.db.config import DBConfig
 from src.infrastructure.db.models.base import BaseModel
 from src.infrastructure.db.models.product import Product
-from src.presentation.api.di.db import build_async_engine
+from src.presentation.api.providers.db import build_async_engine
 
 
 @pytest.fixture(scope="session")
