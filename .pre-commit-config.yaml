@@ -20,7 +20,7 @@ repos:
     rev: "v1.8.0"
     hooks:
       - id: mypy
-        exclude: "application|tests|migrations"
+        exclude: "tests|migrations"
         additional_dependencies:
           - "types-pyyaml"
   - repo: https://github.com/pycqa/flake8
