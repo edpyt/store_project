@@ -7,6 +7,7 @@ from didiator.utils.di_builder import DiBuilderImpl
 from src.application.common.interfaces.uow import UnitOfWork
 from src.infrastructure.di.constants import DiScope
 from src.infrastructure.di.factories import setup_db_factories, setup_mediator_factories
+from src.infrastructure.di.factories.message_bus import setup_event_bus_factories
 from src.infrastructure.mediator.utils import get_mediator
 from src.infrastructure.uow import build_uow
 
@@ -30,3 +31,4 @@ def setup_di_builder(di_builder: DiBuilder) -> None:
     )
     setup_mediator_factories(di_builder, get_mediator, DiScope.REQUEST)
     setup_db_factories(di_builder)
+    setup_event_bus_factories(di_builder)

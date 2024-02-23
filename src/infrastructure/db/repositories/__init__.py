@@ -1,3 +1,3 @@
-from .product import ProductReaderImpl
+from .product import ProductReaderImpl, ProductRepoImpl
 
-__all__ = ("ProductReaderImpl",)
+__all__ = ("ProductReaderImpl", "ProductRepoImpl")
