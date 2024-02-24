@@ -6,6 +6,7 @@ from didiator import Mediator
 from didiator.interface.utils.di_builder import DiBuilder
 from litestar import Litestar
 from litestar.openapi import OpenAPIConfig
+from litestar.plugins.structlog import StructlogPlugin
 
 from src.presentation.api.controllers import setup_controllers
 from src.presentation.api.exceptions.exc import all_exceptions_handler
@@ -13,13 +14,14 @@ from src.presentation.api.providers.main import setup_providers
 
 from .config import APIConfig
 
+logger = logging.getLogger(__name__)
+
 
 def init_api(
     mediator: Mediator,
     di_builder: DiBuilder,
     di_state: ScopeState | None = None,
 ) -> Litestar:
-    # TODO: add logger
     app = Litestar(
         on_startup=[
             lambda ready_app: setup_providers(
@@ -34,7 +36,9 @@ def init_api(
             root_schema_site="swagger",
             enabled_endpoints={"swagger"},
         ),
+        plugins=[StructlogPlugin()]
     )
+    logger.info("Start application")
     return app
 
 

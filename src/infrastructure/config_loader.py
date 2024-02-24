@@ -9,9 +9,9 @@ def read_toml(path: Path) -> dict:
     return tomllib.load(f)
 
 
-def load_config(type_config: str, path: Path | None = None) -> dict:
+def load_config(type_config: str | None = None, path: Path | None = None) -> dict:
     if path is None:
         path_str = os.environ["CONFIG_PATH"]
         path = Path(path_str)
     data = read_toml(path)
-    return data[type_config]
+    return data[type_config] if type_config else data

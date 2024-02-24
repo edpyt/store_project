@@ -10,3 +10,7 @@ database = "store_project"
 user = "giorno"
 password = "giovanno"
 echo = true
+
+[logging]
+level = "DEBUG"
+render_json_logs = false
