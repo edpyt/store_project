@@ -1,6 +1,15 @@
+[api]
+host = "0.0.0.0"
+port = 8000
+debug = true
+
 [db]
 host = "localhost"
-port = 5435
-database = "order"
-user = "postgres"
-password = "postgres"
+port = 5432
+database = "store_project"
+user = "test"
+password = "test"
+echo = true
+
+[logging]
+level = "DEBUG"

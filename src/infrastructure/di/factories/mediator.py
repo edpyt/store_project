@@ -12,6 +12,6 @@ def setup_mediator_factories(
     scope: Scope,
 ) -> None:
     di_builder.bind(bind_by_type(Dependent(mediator_factory, scope=scope), Mediator))
-    di_builder.bind(bind_by_type(Dependent(mediator_factory, scope=scope)), QueryMediator)
-    di_builder.bind(bind_by_type(Dependent(mediator_factory, scope=scope)), CommandMediator)
-    di_builder.bind(bind_by_type(Dependent(mediator_factory, scope=scope)), EventMediator)
+    di_builder.bind(bind_by_type(Dependent(mediator_factory, scope=scope), QueryMediator))
+    di_builder.bind(bind_by_type(Dependent(mediator_factory, scope=scope), CommandMediator))
+    di_builder.bind(bind_by_type(Dependent(mediator_factory, scope=scope), EventMediator))

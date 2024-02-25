@@ -14,10 +14,9 @@ from src.presentation.api.providers.main import setup_providers
 
 from .config import APIConfig
 
-logger = logging.getLogger(__name__)
-
 
 def init_api(
+    logger: logging.Logger,
     mediator: Mediator,
     di_builder: DiBuilder,
     di_state: ScopeState | None = None,

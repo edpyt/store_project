@@ -8,6 +8,7 @@ class DBConfig:
     database: str = "test"
     user: str = "postgres"
     password: str = "postgres"
+    echo: bool = False
 
     @property
     def full_url(self) -> str:

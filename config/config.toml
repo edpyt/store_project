@@ -7,10 +7,10 @@ debug = true
 host = "localhost"
 port = 5432
 database = "store_project"
-user = "giorno"
-password = "giovanno"
+user = "admin"
+password = "admin"
 echo = true
 
 [logging]
 level = "DEBUG"
-render_json_logs = false
+path = "./logs/"
