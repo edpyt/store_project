@@ -1,6 +1,13 @@
+from dataclasses import dataclass
+
 from src.application.common.query import QueryHandler
 from src.application.product.dto import ProductDTO  # type: ignore[attr-defined]
 from src.application.product.interfaces.persistence.reader import ProductReader
+
+
+@dataclass(frozen=True)
+class GetProducts:
+    ...
 
 
 class GetProductsHandler(QueryHandler):
