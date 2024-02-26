@@ -1,6 +1,5 @@
 import logging
 import logging.config
-from datetime import date
 
 import structlog
 
@@ -52,11 +51,6 @@ def configure_logging(logging_config: LoggingConfig) -> None:
                 "default": {
                     "class": "logging.StreamHandler",
                     "formatter": "colored",
-                },
-                "file": {
-                    "class": "logging.handlers.WatchedFileHandler",
-                    "filename": f"{date.today()}.log",
-                    "formatter": "plain",
                 },
             },
             "loggers": {

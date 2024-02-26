@@ -9,7 +9,6 @@ from litestar.openapi import OpenAPIConfig
 from litestar.plugins.structlog import StructlogPlugin
 
 from src.presentation.api.controllers import setup_controllers
-from src.presentation.api.exceptions.exc import all_exceptions_handler
 from src.presentation.api.providers.main import setup_providers
 
 from .config import APIConfig
@@ -28,7 +27,6 @@ def init_api(
             ),
             setup_controllers,
         ],
-        exception_handlers={Exception: all_exceptions_handler},
         openapi_config=OpenAPIConfig(
             title="Simple Store Project",
             version="0.0.1",

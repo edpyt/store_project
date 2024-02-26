@@ -6,6 +6,7 @@ import tomllib
 
 from src.infrastructure.db.config import DBConfig
 from src.infrastructure.log.config import LoggingConfig
+from src.presentation.api.config import APIConfig
 
 T = TypeVar("T")
 
@@ -31,4 +32,5 @@ def load_config(
         if log_path := data["logging"].get("path"):
             data["logging"]["path"] = Path(log_path)
         data["logging"] = LoggingConfig(**data["logging"])
+        data["api"] = APIConfig(**data["api"])
     return config_type(**data)
