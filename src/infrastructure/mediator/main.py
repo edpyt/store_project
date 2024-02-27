@@ -6,7 +6,7 @@ from didiator import (
     QueryDispatcherImpl,
 )
 from didiator.interface.utils.di_builder import DiBuilder
-from didiator.middlewares.di import DiMiddleware
+from didiator.middlewares.di import DiMiddleware, DiScopes
 
 from src.application.product.commands import CreateProduct, CreateProductHandler
 from src.application.product.queries import GetProducts, GetProductsHandler
@@ -14,7 +14,7 @@ from src.infrastructure.di import DiScope
 
 
 def init_mediator(di_builder: DiBuilder) -> Mediator:
-    middlewares = DiMiddleware(di_builder, scopes=DiScope(DiScope.REQUEST))
+    middlewares = DiMiddleware(di_builder, scopes=DiScopes(DiScope.REQUEST))
     command_dispatcher = CommandDispatcherImpl(middlewares=middlewares)
     query_dispatcher = QueryDispatcherImpl(middlewares=middlewares)
     event_observer = EventObserverImpl(middlewares=middlewares)
