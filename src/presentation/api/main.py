@@ -5,6 +5,7 @@ from litestar.plugins.structlog import StructlogPlugin
 from src.infrastructure.config_loader import load_config
 from src.infrastructure.di import init_di_builder, setup_di_builder
 from src.infrastructure.di.constants import DiScope
+from src.infrastructure.event_bus.exchanges import declare_exchanges
 from src.infrastructure.log import configure_logging
 from src.infrastructure.mediator import init_mediator, setup_mediator
 from src.presentation.api.controllers import setup_controllers
@@ -44,5 +45,12 @@ async def setup_app(app: Litestar) -> None:
             init_mediator, DiScope.APP, state=di_state
         )
         setup_mediator(mediator)
+
+        async with di_builder.enter_scope(
+            DiScope.REQUEST, state=di_state
+        ) as req_di_state:
+            await di_builder.execute(
+                declare_exchanges, DiScope.REQUEST, state=req_di_state
+            )
 
         setup_providers(app, mediator, di_builder, di_state)

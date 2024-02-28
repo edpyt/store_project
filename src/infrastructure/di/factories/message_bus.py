@@ -4,6 +4,7 @@ from di.dependent import Dependent
 from didiator.interface.utils.di_builder import DiBuilder
 
 from src.infrastructure.di.constants import DiScope
+from src.infrastructure.message_broker import MessageBroker, MessageBrokerImpl
 from src.infrastructure.message_broker.main import (
     build_rq_channel,
     build_rq_channel_pool,
@@ -15,7 +16,7 @@ from src.infrastructure.message_broker.main import (
 def setup_event_bus_factories(di_builder: DiBuilder) -> None:
     di_builder.bind(
         bind_by_type(
-            Dependent(build_rq_connection_pool, scope=DiScope.REQUEST),
+            Dependent(build_rq_connection_pool, scope=DiScope.APP),
             aio_pika.pool.Pool[aio_pika.abc.AbstractConnection],
         ),
     )
@@ -35,5 +36,10 @@ def setup_event_bus_factories(di_builder: DiBuilder) -> None:
         bind_by_type(
             Dependent(build_rq_transaction, scope=DiScope.REQUEST),
             aio_pika.abc.AbstractTransaction,
+        )
+    )
+    di_builder.bind(
+        bind_by_type(
+            Dependent(MessageBrokerImpl, scope=DiScope.REQUEST), MessageBroker
         )
     )

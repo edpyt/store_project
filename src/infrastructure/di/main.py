@@ -1,3 +1,5 @@
+from logging import Logger
+
 from di import Container, bind_by_type
 from di.dependent import Dependent
 from di.executors import AsyncExecutor
@@ -8,6 +10,7 @@ from src.application.common.interfaces.uow import UnitOfWork
 from src.infrastructure.di.constants import DiScope
 from src.infrastructure.di.factories import setup_db_factories, setup_mediator_factories
 from src.infrastructure.di.factories.message_bus import setup_event_bus_factories
+from src.infrastructure.log.main import build_logger
 from src.infrastructure.mediator.utils import get_mediator
 from src.infrastructure.uow import build_uow
 
@@ -25,6 +28,9 @@ def setup_di_builder(di_builder: DiBuilder) -> None:
         bind_by_type(
             Dependent(lambda *args: di_builder, scope=DiScope.APP), DiBuilder
         )
+    )
+    di_builder.bind(
+        bind_by_type(Dependent(build_logger, scope=DiScope.APP), Logger)
     )
     di_builder.bind(
         bind_by_type(Dependent(build_uow, scope=DiScope.REQUEST), UnitOfWork)
