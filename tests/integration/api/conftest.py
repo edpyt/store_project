@@ -7,13 +7,13 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.application.product import dto
 from src.infrastructure.db.models.product import Product
-from src.presentation.api.main import build_app
+from src.presentation.api.main import init_api
 from tests.utils.di import setup_test_di
 
 
 @pytest_asyncio.fixture
 async def app(path: str) -> AsyncGenerator[Litestar, None]:
-    app: Litestar = build_app()
+    app: Litestar = init_api()
     setup_test_di(app, path)
     yield app
 

@@ -33,8 +33,7 @@ def config_path() -> Path:
 
 @pytest.fixture(scope="session")
 def db_config(path: Path) -> DBConfig:
-    config_data = load_config(DBConfig, path=str(path))
-    return DBConfig(**config_data)
+    return load_config(DBConfig, config_scope="db", path=str(path))
 
 
 @pytest_asyncio.fixture(name="engine")

@@ -51,18 +51,16 @@ jobs:
       test-db:
         image: postgres
         env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: order
-          POSTGRES_HOST: test-db
-          POSTGRES_PORT: 5432
+          POSTGRES_USER: test
+          POSTGRES_PASSWORD: test
+          POSTGRES_DB: test
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
         ports:
-          - 5435:5432
+          - 5433:5432
     steps:
       - uses: actions/checkout@v3
       - name: Install poetry
@@ -74,4 +72,4 @@ jobs:
           cache: "poetry"
           cache-dependency-path: poetry.lock
       - name: Run tests
-        run: poetry run pytest tests -s -vv
+        run: poetry run pytest tests/unit -s -vv

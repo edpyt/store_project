@@ -1,12 +1,11 @@
 [api]
 host = "0.0.0.0"
 port = 8000
-debug = true
 
 [db]
 host = "localhost"
-port = 5432
-database = "store_project"
+port = 5433
+database = "test"
 user = "test"
 password = "test"
 echo = true
