@@ -11,8 +11,6 @@ python = "^3.11"
 sqlalchemy = "^2.0.25"
 asyncpg = "^0.29.0"
 pyyaml = "^6.0.1"
-alembic = "^1.13.1"
-sqlalchemy-utils = "^0.41.1"
 litestar = "^2.5.4"
 uvicorn = "^0.27.0.post1"
 didiator = {extras = ["di"], version = "^0.3.1"}
@@ -29,6 +27,10 @@ httpx = "^0.26.0"
 pre-commit = "^3.6.0"
 types-pyyaml = "^6.0.12.12"
 flake8-aaa = "^0.17.0"
+
+[tool.poetry.group.migration.dependencies]
+alembic = "^1.13.1"
+sqlalchemy-utils = "^0.41.1"
 
 [build-system]
 requires = ["poetry-core"]

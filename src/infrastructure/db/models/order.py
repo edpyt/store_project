@@ -11,4 +11,6 @@ from src.infrastructure.db.models.base import (
 class Order(BaseModelUUID, BaseModelCreatedUpdated):
     __tablename__ = "order"
 
-    status: Status = Column(ChoiceType(Status), nullable=False, default=Status.CREATED)
+    status: Status = Column(
+        ChoiceType(Status), nullable=False, default=Status.CREATED
+    )

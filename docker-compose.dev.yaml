@@ -1,0 +1,79 @@
+services:
+  store-api-app:
+    image: store_project
+    build:
+      context: ./
+      args:
+        POETRY_DEP_GROUP: "main"
+    command: python -m src run
+    environment:
+      - CONFIG_PATH=${CONFIG_PATH:-./config/prod_config.toml}
+    volumes:
+      - ./config:/store_project/config:ro
+    depends_on:
+      dev-db:
+        condition: service_healthy
+
+  migration:
+    build:
+      context: .
+      args:
+        POETRY_DEP_GROUP: "migration"
+    restart: on-failure
+    environment:
+      - CONFIG_PATH=${CONFIG_PATH:-./config/prod_config.toml}
+    volumes:
+      - ./config:/store_project/config:ro
+      - ./alembic.ini:/store_project/alembic.ini:ro
+      - ./src/infrastructure/db/migrations:/store_project/src/infrastructure/db/migrations:ro
+    command: ["python", "-m", "alembic", "upgrade", "head"]
+    depends_on:
+      dev-db:
+        condition: service_healthy
+
+  dev-db:
+    image: postgres:latest
+    container_name: store_project.postgres
+    restart: on-failure
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d $$POSTGRES_DB -U $$POSTGRES_USER"]
+      interval: 5s
+      timeout: 20s
+      retries: 5
+    expose:
+      - "5432"
+    ports:
+      - "127.0.0.1:15432:5432"
+    volumes:
+      # save db data
+      - store_project.postgres.data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_HOST=localhost
+      - POSTGRES_DB=store_project
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+
+  rabbitmq:
+    image: rabbitmq:3.13-management-alpine
+    container_name: store_project.rabbitmq
+    restart: unless-stopped
+    expose:
+      - "5672"
+    ports:
+      - "127.0.0.1:5672:5672"
+      - "127.0.0.1:15672:15672"
+    volumes:
+      - store_project.rabbitmq.data:/var/lib/rabbitmq/:rw
+    environment:
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_USER:-admin}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASSWORD:-admin}
+    healthcheck:
+      test: ["CMD-SHELL", "rabbitmq-diagnostics check_running -q"]
+      interval: 10s
+      timeout: 60s
+      retries: 5
+      start_period: 10s
+
+volumes:
+  store_project.postgres.data:
+  store_project.rabbitmq.data:

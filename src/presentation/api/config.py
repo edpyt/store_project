@@ -7,6 +7,7 @@ from didiator.interface.utils.di_builder import DiBuilder
 from src.infrastructure.db import DBConfig
 from src.infrastructure.di.constants import DiScope
 from src.infrastructure.log import LoggingConfig
+from src.infrastructure.message_broker.config import EventBusConfig
 
 
 @dataclass
@@ -20,6 +21,7 @@ class Config:
     db: DBConfig = field(default_factory=DBConfig)
     logging: LoggingConfig = field(default_factory=LoggingConfig)
     api: APIConfig = field(default_factory=APIConfig)
+    event_bus: EventBusConfig = field(default_factory=EventBusConfig)
 
 
 def setup_di_builder_config(di_builder: DiBuilder, config: Config) -> None:
@@ -34,4 +36,7 @@ def setup_di_builder_config(di_builder: DiBuilder, config: Config) -> None:
     )
     di_builder.bind(
         bind_by_type(Dependent(lambda *args: config.api, scope=DiScope.APP), APIConfig)
+    )
+    di_builder.bind(
+        bind_by_type(Dependent(lambda *args: config.event_bus, scope=DiScope.APP), EventBusConfig)
     )

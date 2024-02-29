@@ -3,8 +3,8 @@ host = "0.0.0.0"
 port = 8000
 
 [db]
-host = "localhost"  # POSTGRES_HOST
-port = 15432  # POSTGRES_PORT
+host = "store_project.postgres"  # POSTGRES_HOST
+port = 5432  # POSTGRES_PORT
 database = "store_project"  # POSTGRES_DB
 user = "admin"  # POSTGRES_USER
 password = "admin"  # POSTGRES_PASSWORD
@@ -15,7 +15,7 @@ level = "DEBUG"
 path = "./logs/"
 
 [event_bus]
-host = "localhost"
+host = "store_project.rabbitmq"
 port = 5672
 login = "admin"
 password = "admin"
