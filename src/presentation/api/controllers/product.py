@@ -1,23 +1,17 @@
 from typing import Annotated
 
 from didiator import Mediator
+from dishka.integrations.litestar import Depends
 from litestar import Controller, Response, get, post
-from litestar.di import Provide
-from litestar.params import Dependency
 
 from src.application.product.commands.create_product import CreateProduct
 from src.application.product.dto.products import ProductDTO
 from src.application.product.interfaces.persistence.reader import ProductReader
-from src.presentation.api.providers.product import create_product_reader_impl
 
 
 class ProductController(Controller):  # type: ignore[misc]
     path = "/product"
     tags = ["Product"]
-
-    dependencies: dict[str, Provide] = {
-        "product_reader": Provide(create_product_reader_impl),
-    }
 
     @get(
         "/all",
@@ -26,9 +20,7 @@ class ProductController(Controller):  # type: ignore[misc]
     )  # type: ignore[misc]
     async def get_all_products(
         self,
-        product_reader: Annotated[
-            ProductReader, Dependency(skip_validation=True)
-        ],
+        product_reader: Annotated[ProductReader, Depends()],
     ) -> list[ProductDTO]:
         """Get all products endpoint.
 
@@ -45,7 +37,7 @@ class ProductController(Controller):  # type: ignore[misc]
     async def create_product(  # type: ignore[empty-body]
         self,
         create_product_command: CreateProduct,
-        mediator: Annotated[Mediator, Dependency(skip_validation=True)],
+        mediator: Annotated[Mediator, Depends()],
     ) -> Response:
         """Create product endpoint.
 

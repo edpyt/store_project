@@ -8,9 +8,9 @@ from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, async_sessionmaker
 
 from src.infrastructure.config_loader import load_config
 from src.infrastructure.db.config import DBConfig
+from src.infrastructure.db.main import build_sa_engine
 from src.infrastructure.db.models.base import BaseModel
 from src.infrastructure.db.models.product import Product
-from src.presentation.api.providers.db import build_async_engine
 
 
 @pytest.fixture(scope="session")
@@ -40,7 +40,7 @@ def db_config(path: Path) -> DBConfig:
 async def create_engine(
     db_config: DBConfig,
 ) -> AsyncGenerator[AsyncEngine, None]:
-    engine = await anext(build_async_engine(db_config))
+    engine = await anext(build_sa_engine(db_config))
     yield engine
 
 
