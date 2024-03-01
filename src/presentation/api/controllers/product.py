@@ -1,7 +1,7 @@
 from typing import Annotated
 
 from didiator import Mediator
-from litestar import Controller, get, post
+from litestar import Controller, Response, get, post
 from litestar.di import Provide
 from litestar.params import Dependency
 
@@ -9,7 +9,6 @@ from src.application.product.commands.create_product import CreateProduct
 from src.application.product.dto.products import ProductDTO
 from src.application.product.interfaces.persistence.reader import ProductReader
 from src.presentation.api.providers.product import create_product_reader_impl
-from src.presentation.api.responses.base import OkResponse
 
 
 class ProductController(Controller):  # type: ignore[misc]
@@ -47,7 +46,7 @@ class ProductController(Controller):  # type: ignore[misc]
         self,
         create_product_command: CreateProduct,
         mediator: Annotated[Mediator, Dependency(skip_validation=True)],
-    ) -> OkResponse:
+    ) -> Response:
         """Create product endpoint.
 
         :param product: Product DTO object
@@ -56,4 +55,4 @@ class ProductController(Controller):  # type: ignore[misc]
         product_id = await mediator.send(create_product_command)
         product = product_id
         # product = await mediator.query(GetProductById(product_id=product_id))
-        return OkResponse(product, status_code=201)
+        return Response(product, status_code=201)
