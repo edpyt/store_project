@@ -3,12 +3,19 @@ host = "0.0.0.0"
 port = 8000
 
 [db]
-host = "localhost"
-port = 5433
-database = "test"
-user = "test"
-password = "test"
+host = "localhost"  # POSTGRES_HOST
+port = 5432  # POSTGRES_PORT
+database = "test"  # POSTGRES_DB
+user = "test"  # POSTGRES_USER
+password = "test"  # POSTGRES_PASSWORD
 echo = true
 
 [logging]
 level = "DEBUG"
+path = "./logs/"
+
+[event_bus]
+host = "localhost"
+port = 5672
+login = "test"
+password = "test"

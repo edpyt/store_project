@@ -1,20 +1,27 @@
 services:
   store-api-app:
     image: store_project
+    container_name: store_project.api
     build:
       context: ./
       args:
         POETRY_DEP_GROUP: "main"
-    command: python -m src run
+    command: ["python", "-m", "src",  "run", "-H", "0.0.0.0", "-p", "8010", "-r", "--debug"]
     environment:
       - CONFIG_PATH=${CONFIG_PATH:-./config/prod_config.toml}
     volumes:
       - ./config:/store_project/config:ro
+      - ./src:/store_project/src
     depends_on:
       dev-db:
         condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    ports:
+      - 8010:8010
 
   migration:
+    container_name: store_project.migrations
     build:
       context: .
       args:

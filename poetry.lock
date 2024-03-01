@@ -238,6 +238,17 @@ di = {version = ">=0.75.0,<0.76.0", extras = ["anyio"], optional = true, markers
 di = ["di[anyio] (>=0.75.0,<0.76.0)"]
 
 [[package]]
+name = "dishka"
+version = "0.5.0"
+description = "Minimal DI framework"
+optional = false
+python-versions = ">=3.10"
+files = [
+    {file = "dishka-0.5.0-py3-none-any.whl", hash = "sha256:d219e55eeba1e63a67a1f56e00178356f1bddf1b8e22b6058c3f644c9b333ccb"},
+    {file = "dishka-0.5.0.tar.gz", hash = "sha256:d84d4cb5e434bfd127fdcb414e9aead82f11d7e10d78df09954d0bdce21755a8"},
+]
+
+[[package]]
 name = "distlib"
 version = "0.3.8"
 description = "Distribution utilities"
@@ -1528,4 +1539,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "19d6bcf9c2a8102c9241de511714ca5c812687278694a995bb97f3537f9b5f6e"
+content-hash = "f642fb8f75c30058b10cc6beb923adce55234ed751b7cec9663f7960831b939f"

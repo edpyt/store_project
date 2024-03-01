@@ -1,10 +1,15 @@
 from di import ScopeState
 from didiator import Mediator
 from didiator.interface.utils.di_builder import DiBuilder
+from dishka import make_async_container
+from dishka.integrations.litestar import setup_dishka
 from litestar import Litestar
 
-from src.presentation.api.providers.di import StateProvider
-from src.presentation.api.providers.mediator import MediatorProvider
+from src.infrastructure.di.providers import (
+    DiProvider,
+    MediatorProvider,
+    StateProvider,
+)
 
 
 def setup_providers(
@@ -13,11 +18,15 @@ def setup_providers(
     di_builder: DiBuilder,
     di_state: ScopeState | None = None,
 ) -> None:
-    mediator_provider = MediatorProvider(mediator)
+    di_provider = DiProvider(
+        mediator=mediator,
+        di_builder=di_builder,
+        di_state=di_state,
+    )
+    mediator_provider = MediatorProvider()
+    state_provider = StateProvider()
 
-    app.dependencies["mediator"] = mediator_provider.build
-
-    state_provider = StateProvider(di_state)
-
-    app.dependencies["di_builder"] = lambda: di_builder
-    app.dependencies["di_state"] = state_provider.build
+    container = make_async_container(
+        di_provider, mediator_provider, state_provider
+    )
+    setup_dishka(container, app)

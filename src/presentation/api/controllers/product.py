@@ -1,30 +1,26 @@
 from typing import Annotated
 
 from didiator import Mediator
-from litestar import Controller, get, post
-from litestar.di import Provide
-from litestar.params import Dependency
+from dishka.integrations.litestar import Depends
+from litestar import Controller, Response, get, post
 
 from src.application.product.commands.create_product import CreateProduct
 from src.application.product.dto.products import ProductDTO
 from src.application.product.interfaces.persistence.reader import ProductReader
-from src.presentation.api.providers.product import create_product_reader_impl
-from src.presentation.api.responses.base import OkResponse
 
 
 class ProductController(Controller):  # type: ignore[misc]
     path = "/product"
+    tags = ["Product"]
 
-    dependencies: dict[str, Provide] = {
-        "product_reader": Provide(create_product_reader_impl),
-    }
-
-    @get("/all")  # type: ignore[misc]
+    @get(
+        "/all",
+        summary="GET products",
+        description="Get all products from database.",
+    )  # type: ignore[misc]
     async def get_all_products(
         self,
-        product_reader: Annotated[
-            ProductReader, Dependency(skip_validation=True)
-        ],
+        product_reader: Annotated[ProductReader, Depends()],
     ) -> list[ProductDTO]:
         """Get all products endpoint.
 
@@ -32,12 +28,17 @@ class ProductController(Controller):  # type: ignore[misc]
         """
         return await product_reader.get_products()
 
-    @post("/create/", status_code=200)  # type: ignore[misc]
+    @post(
+        "/create/",
+        summary="CREATE product",
+        description="Create product in database.",
+        status_code=201,
+    )  # type: ignore[misc]
     async def create_product(  # type: ignore[empty-body]
         self,
         create_product_command: CreateProduct,
-        mediator: Annotated[Mediator, Dependency(skip_validation=True)],
-    ) -> OkResponse:
+        mediator: Annotated[Mediator, Depends()],
+    ) -> Response:
         """Create product endpoint.
 
         :param product: Product DTO object
@@ -46,4 +47,4 @@ class ProductController(Controller):  # type: ignore[misc]
         product_id = await mediator.send(create_product_command)
         product = product_id
         # product = await mediator.query(GetProductById(product_id=product_id))
-        return OkResponse(product, status_code=201)
+        return Response(product, status_code=201)
