@@ -27,6 +27,6 @@ def setup_providers(
     state_provider = StateProvider()
 
     container = make_async_container(
-        di_provider, mediator_provider, state_provider
+        di_provider, mediator_provider, state_provider,
     )
     setup_dishka(container, app)

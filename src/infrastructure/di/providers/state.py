@@ -2,13 +2,13 @@ from typing import AsyncGenerator
 
 from di import ScopeState
 from didiator.interface.utils.di_builder import DiBuilder
-from dishka import Provider, provide
+from dishka import Provider, Scope, provide
 
 from src.infrastructure.di import DiScope
 
 
 class StateProvider(Provider):
-    @provide
+    @provide(scope=Scope.APP)
     async def build(
         self, di_state: ScopeState | None, di_builder: DiBuilder
     ) -> AsyncGenerator[ScopeState, None]:
