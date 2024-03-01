@@ -12,6 +12,7 @@ from src.presentation.api.controllers import setup_controllers
 from src.presentation.api.providers.main import setup_providers
 
 from .config import Config, setup_di_builder_config
+from .docs import StoreProjectOpenAPIController
 
 
 def init_api() -> Litestar:
@@ -25,6 +26,7 @@ def init_api() -> Litestar:
             version="0.0.1",
             root_schema_site="swagger",
             enabled_endpoints={"swagger"},
+            openapi_controller=StoreProjectOpenAPIController,
         ),
         plugins=[StructlogPlugin()],
     )

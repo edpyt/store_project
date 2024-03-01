@@ -14,12 +14,17 @@ from src.presentation.api.responses.base import OkResponse
 
 class ProductController(Controller):  # type: ignore[misc]
     path = "/product"
+    tags = ["Product"]
 
     dependencies: dict[str, Provide] = {
         "product_reader": Provide(create_product_reader_impl),
     }
 
-    @get("/all")  # type: ignore[misc]
+    @get(
+        "/all",
+        summary="GET products",
+        description="Get all products from database.",
+    )  # type: ignore[misc]
     async def get_all_products(
         self,
         product_reader: Annotated[
@@ -32,7 +37,12 @@ class ProductController(Controller):  # type: ignore[misc]
         """
         return await product_reader.get_products()
 
-    @post("/create/", status_code=200)  # type: ignore[misc]
+    @post(
+        "/create/",
+        summary="CREATE product",
+        description="Create product in database.",
+        status_code=201,
+    )  # type: ignore[misc]
     async def create_product(  # type: ignore[empty-body]
         self,
         create_product_command: CreateProduct,
