@@ -1,60 +1,50 @@
-from typing import AsyncGenerator, Generator
+import os
+from typing import Generator
 
 import pytest
 from litestar import Litestar
 from litestar.testing import AsyncTestClient
-from sqlalchemy.ext.asyncio import (
-    AsyncSession,
-    async_sessionmaker,
-    create_async_engine,
-)
 from testcontainers.postgres import PostgresContainer
+from testcontainers.rabbitmq import RabbitMqContainer
 
-from src.infrastructure.db.models import BaseModel
 from src.presentation.api.main import init_api
 
 
 @pytest.fixture(scope="session")
+def rabbitmq_container() -> Generator[RabbitMqContainer, None, None]:
+    container = RabbitMqContainer(
+        "rabbitmq:3.13.0-alpine",
+        username="test",
+        password="test",
+    )
+    try:
+        yield container.start()
+    finally:
+        container.stop()
+
+
+@pytest.fixture(scope="session")
 def postgres_container() -> Generator[PostgresContainer, None, None]:
-    container = PostgresContainer("postgres:16-alpine")
-    yield container.start()
-    container.stop()
-
-
-@pytest.fixture(name="postgres_url", scope="session")
-def get_postgres_url(
-    postgres_container: PostgresContainer,
-) -> Generator[str, None, None]:
-    postgres_url = postgres_container.get_connection_url().replace(
-        "postgresql+psycopg2", "postgresql+asyncpg"
+    container = PostgresContainer(
+        "postgres:16-alpine",
+        user="test",
+        dbname="test",
+        password="test",
     )
-    yield postgres_url
-
-
-@pytest.fixture(name="session_factory")
-async def create_session_factory(
-    postgres_url: str,
-) -> AsyncGenerator[async_sessionmaker[AsyncSession], None]:
-    engine = create_async_engine(url=postgres_url)
-    BaseModel.metadata.create_all(engine)
-    session_factory: async_sessionmaker[AsyncSession] = async_sessionmaker(
-        bind=engine, expire_on_commit=False, autoflush=False
-    )
-    yield session_factory
-    await engine.dispose()
-    BaseModel.metadata.create_all(engine)
-
-
-@pytest.fixture(name="session")
-async def create_session(
-    session_factory: async_sessionmaker[AsyncSession],
-) -> AsyncGenerator[AsyncSession, None]:
-    async with session_factory() as session:
-        yield session
+    try:
+        yield container.start()
+    finally:
+        container.stop()
 
 
 @pytest.fixture
-async def test_client(container: PostgresContainer):
+async def test_client(
+    postgres_container: PostgresContainer,
+    rabbitmq_container: RabbitMqContainer,
+):
+    os.environ["POSTGRES_PORT"] = postgres_container.get_exposed_port("5432")
+    os.environ["RMQ_PORT"] = rabbitmq_container.get_exposed_port("5672")
+    os.environ["CONFIG_PATH"] = "./tests/utils/config/test_config.toml"
     app: Litestar = init_api()
     async with AsyncTestClient(app=app) as client:
         yield client
