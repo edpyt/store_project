@@ -57,5 +57,7 @@ jobs:
           python-version: ${{ env.PYTHON_VERSION }}
           cache: "poetry"
           cache-dependency-path: poetry.lock
-      - name: Run tests
-        run: poetry run pytest . -s -vv
+      - name: Run integration tests
+        run: poetry run pytest tests/integration  -s -vv
+      - name: Run unit tests
+        run: poetry run pytest tests/unit  -s -vv
