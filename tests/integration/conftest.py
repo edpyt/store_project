@@ -2,6 +2,8 @@ import os
 from typing import Generator
 
 import pytest
+from alembic.command import upgrade
+from alembic.config import Config as AlembicConfig
 from litestar import Litestar
 from litestar.testing import AsyncTestClient
 from testcontainers.postgres import PostgresContainer
@@ -31,8 +33,15 @@ def postgres_container() -> Generator[PostgresContainer, None, None]:
         dbname="test",
         password="test",
     )
+    container.start()
+
+    postgres_url = container.get_connection_url().replace("psycopg2", "asyncpg")
+    alembic_cfg = AlembicConfig("alembic.ini")
+    alembic_cfg.set_main_option("sqlalchemy.url", postgres_url)
+    upgrade(alembic_cfg, "head")
+
     try:
-        yield container.start()
+        yield container
     finally:
         container.stop()
 
