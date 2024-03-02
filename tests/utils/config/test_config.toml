@@ -4,7 +4,6 @@ port = 8000
 
 [db]
 host = "localhost"  # POSTGRES_HOST
-port = 5432  # POSTGRES_PORT
 database = "test"  # POSTGRES_DB
 user = "test"  # POSTGRES_USER
 password = "test"  # POSTGRES_PASSWORD
@@ -16,6 +15,5 @@ path = "./logs/"
 
 [event_bus]
 host = "localhost"
-port = 5672
 login = "test"
 password = "test"

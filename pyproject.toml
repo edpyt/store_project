@@ -23,6 +23,8 @@ dishka = "^0.5.0"
 pytest-asyncio = "^0.23.3"
 pytest = "^7.4.4"
 httpx = "^0.26.0"
+testcontainers-postgres = "^0.0.1rc1"
+testcontainers-rabbitmq = "^0.0.1rc1"
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^3.6.0"
