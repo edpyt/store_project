@@ -5,15 +5,19 @@ from litestar.openapi import OpenAPIConfig
 from litestar.plugins.structlog import StructlogPlugin
 
 from src.infrastructure.config_loader import load_config
-from src.infrastructure.di import init_di_builder, setup_container, setup_di_builder
+from src.infrastructure.di import (
+    init_di_builder,
+    setup_container,
+    setup_di_builder,
+)
 from src.infrastructure.di.constants import DiScope
 from src.infrastructure.event_bus.exchanges import declare_exchanges
 from src.infrastructure.log import configure_logging
 from src.infrastructure.mediator import init_mediator, setup_mediator
 from src.presentation.api.controllers import setup_controllers
+from src.presentation.api.controllers.docs import StoreProjectOpenAPIController
 
 from .config import Config, setup_di_builder_config
-from .docs import StoreProjectOpenAPIController
 
 
 def init_api() -> Litestar:
@@ -56,5 +60,7 @@ async def setup_app(app: Litestar) -> None:
                 declare_exchanges, DiScope.REQUEST, state=req_di_state
             )
 
-        container: AsyncContainer = setup_container(mediator, di_builder, di_state)
+        container: AsyncContainer = setup_container(
+            mediator, di_builder, di_state
+        )
         setup_dishka(container, app)

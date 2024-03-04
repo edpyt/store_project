@@ -1,7 +1,6 @@
 from litestar import Litestar
 
-from src.presentation.api.controllers.healthcheck import healthcheck_endpoint
-
+from .healthcheck import healthcheck_endpoint
 from .product import ProductController
 
 
