@@ -13,7 +13,9 @@ from src.infrastructure.db.config import DBConfig
 async def build_sa_engine(
     db_config: DBConfig,
 ) -> AsyncGenerator[AsyncEngine, None]:
-    engine = create_async_engine(db_config.full_url, echo=True, pool_size=50)
+    engine = create_async_engine(
+        db_config.full_url, echo=db_config.echo, pool_size=50
+    )
     yield engine
 
     await engine.dispose()

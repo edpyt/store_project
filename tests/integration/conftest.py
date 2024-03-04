@@ -2,6 +2,8 @@ import os
 from typing import Generator
 
 import pytest
+from alembic.command import upgrade
+from alembic.config import Config as AlembicConfig
 from litestar import Litestar
 from litestar.testing import AsyncTestClient
 from testcontainers.postgres import PostgresContainer
@@ -34,11 +36,15 @@ def postgres_container() -> Generator[PostgresContainer, None, None]:
     container.stop()
 
 
+@pytest.fixture(scope="session", name="alembic_config")
+def create_alembic_config() -> AlembicConfig:
+    alembic_config = AlembicConfig("alembic.ini")
+    return alembic_config
+
+
 @pytest.fixture(scope="session")
-def postgres_url(postgres_container: PostgresContainer) -> str:
-    return postgres_container.get_connection_url().replace(
-        "psycopg2", "asyncpg"
-    )
+def run_db_migrations(alembic_config: AlembicConfig) -> None:
+    upgrade(alembic_config, "head")
 
 
 @pytest.fixture
