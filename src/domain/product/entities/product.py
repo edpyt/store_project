@@ -1,4 +1,4 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Self
 
 from src.domain.common.entities.aggregate_root import AggregateRoot
@@ -11,9 +11,6 @@ from src.domain.product.value_objects import ProductId, ProductProperty
 class Product(AggregateRoot):
     id: ProductId
     product_property: ProductProperty
-    existing_product_properties: set[ProductProperty] = field(
-        default_factory=set
-    )
 
     @classmethod
     def create(
@@ -26,7 +23,7 @@ class Product(AggregateRoot):
             raise ProductPropertyAlreadyExists(product_property.to_raw())
 
         existing_product_properties.add(product_property)
-        product = cls(product_id, product_property, existing_product_properties)
+        product = cls(product_id, product_property)
         product.record_event(
             ProductCreated(
                 product_id.to_raw(),
