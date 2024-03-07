@@ -13,7 +13,6 @@ asyncpg = "^0.29.0"
 pyyaml = "^6.0.1"
 litestar = "^2.5.4"
 uvicorn = "^0.27.0.post1"
-didiator = {extras = ["di"], version = "^0.3.1"}
 aio-pika = "^9.4.0"
 structlog = "^24.1.0"
 orjson = "^3.9.15"

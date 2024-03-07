@@ -1,5 +1,6 @@
 from decimal import Decimal
 from typing import Iterable, NoReturn
+from uuid import UUID
 
 from sqlalchemy import select
 from sqlalchemy.exc import DBAPIError, IntegrityError
@@ -31,6 +32,13 @@ class ProductReaderImpl(SQLAlchemyRepo, ProductReader):
             for product in result.all()
         ]
 
+    async def get_product_by_id(self, id_: UUID) -> ProductDTO:
+        stmt = select(Product).where(Product.id == id)
+        result = await self._session.scalar(stmt)
+        return ProductDTO(
+            title=result.title, price=result.price, weight=result.weight
+        )
+
 
 class ProductRepoImpl(SQLAlchemyRepo, ProductRepo):
     @exception_mapper
@@ -54,7 +62,9 @@ class ProductRepoImpl(SQLAlchemyRepo, ProductRepo):
         except IntegrityError as err:
             self._parse_error(err, product)
 
-    def _parse_error(self, err: DBAPIError, product: entities.Product) -> NoReturn:
+    def _parse_error(
+        self, err: DBAPIError, product: entities.Product
+    ) -> NoReturn:
         match err.__cause__.__cause__.constraint_name:  # type: ignore
             case "pk_product":
                 raise ProductIdAlreadyExistsError(product.id.to_raw()) from err

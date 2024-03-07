@@ -1,10 +1,12 @@
 from collections.abc import Sequence
 from typing import Any
 
-from didiator import Event, EventMediator
+
+class Event:
+    ...
 
 
-class EventMediatorMock(EventMediator):
+class EventMediatorMock:
     def __init__(self) -> None:
         self.published_events: list[Event] = []
 
