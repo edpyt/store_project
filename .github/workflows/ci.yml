@@ -4,9 +4,9 @@ on:
   workflow_call:
 
   pull_request:
-    branches: ["main", "dev"]
+    branches: ["dev"]
   push:
-    branches: ["main"]
+    branches: ["dev"]
 
 env:
   PYTHON_VERSION: 3.11
@@ -57,7 +57,5 @@ jobs:
           python-version: ${{ env.PYTHON_VERSION }}
           cache: "poetry"
           cache-dependency-path: poetry.lock
-      - name: Run integration tests
-        run: poetry run pytest tests/integration  -s -vv
-      - name: Run unit tests
-        run: poetry run pytest tests/unit  -s -vv
+      - name: Run tests
+        run: poetry run pytest tests/  -s -vv
