@@ -1,12 +1,14 @@
 from typing import Annotated
 
-from didiator import Mediator
 from dishka.integrations.litestar import Depends
-from litestar import Controller, Response, get, post
+from litestar import Controller, get, post
 
-from src.application.product.commands.create_product import CreateProduct
+from src.application.product.commands.create_product import (
+    CreateProductHandler,
+)
 from src.application.product.dto.products import ProductDTO
 from src.application.product.interfaces.persistence.reader import ProductReader
+from src.presentation.api.dto.product import CreateProductDTO, ReturnProductDTO
 
 
 class ProductController(Controller):  # type: ignore[misc]
@@ -33,18 +35,19 @@ class ProductController(Controller):  # type: ignore[misc]
         summary="CREATE product",
         description="Create product in database.",
         status_code=201,
+        return_dto=ReturnProductDTO,
     )  # type: ignore[misc]
     async def create_product(  # type: ignore[empty-body]
         self,
-        create_product_command: CreateProduct,
-        mediator: Annotated[Mediator, Depends()],
-    ) -> Response:
+        create_product_dto: CreateProductDTO,
+        create_product_handler: Annotated[CreateProductHandler, Depends()],
+        product_reader: Annotated[ProductReader, Depends()],
+    ) -> ProductDTO:
         """Create product endpoint.
 
         :param product: Product DTO object
         :param product_reader: ProductReader depends object
         """
-        product_id = await mediator.send(create_product_command)
-        product = product_id
-        # product = await mediator.query(GetProductById(product_id=product_id))
-        return Response(product, status_code=201)
+        product_id = await create_product_handler(create_product_dto)
+        product = await product_reader.get_product_by_id(product_id)
+        return product

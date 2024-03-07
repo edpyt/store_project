@@ -1,12 +1,8 @@
 ## Store Project
 
-Simple Store project. Clean Architecture + DDD + CQRS.
-
-I wanted to implement DDD, but it all came to DiDiDi (Didiator, Di, Dishka)
+Simple Store project.
 
 Dependency:
-- [didiator](https://github.com/SamWarden/didiator)
-- [di](https://github.com/adriangb/di)
 - [dishka](https://github.com/reagento/dishka)
 - [Litestar](https://github.com/litestar-org/litestar)
 - [SQLAlchemy](https://github.com/sqlalchemy/sqlalchemy)
