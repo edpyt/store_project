@@ -1,6 +1,6 @@
 from typing import Annotated
 
-from dishka.integrations.litestar import Depends
+from dishka.integrations.litestar import FromDishka, inject
 from litestar import Controller, get, post
 
 from src.application.product.commands.create_product import (
@@ -11,7 +11,7 @@ from src.application.product.interfaces.persistence.reader import ProductReader
 from src.presentation.api.dto.product import CreateProductDTO, ReturnProductDTO
 
 
-class ProductController(Controller):  # type: ignore[misc]
+class ProductController(Controller):
     path = "/product"
     tags = ["Product"]
 
@@ -19,10 +19,11 @@ class ProductController(Controller):  # type: ignore[misc]
         "/all",
         summary="GET products",
         description="Get all products from database.",
-    )  # type: ignore[misc]
+    )
+    @inject
     async def get_all_products(
         self,
-        product_reader: Annotated[ProductReader, Depends()],
+        product_reader: Annotated[ProductReader, FromDishka()],
     ) -> list[ProductDTO]:
         """Get all products endpoint.
 
@@ -36,12 +37,13 @@ class ProductController(Controller):  # type: ignore[misc]
         description="Create product in database.",
         status_code=201,
         return_dto=ReturnProductDTO,
-    )  # type: ignore[misc]
-    async def create_product(  # type: ignore[empty-body]
+    )
+    @inject
+    async def create_product(
         self,
         create_product_dto: CreateProductDTO,
-        create_product_handler: Annotated[CreateProductHandler, Depends()],
-        product_reader: Annotated[ProductReader, Depends()],
+        create_product_handler: Annotated[CreateProductHandler, FromDishka()],
+        product_reader: Annotated[ProductReader, FromDishka()],
     ) -> ProductDTO:
         """Create product endpoint.
 
