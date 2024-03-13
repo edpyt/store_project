@@ -38,6 +38,6 @@ async def setup_app(app: Litestar) -> None:
 
     di_providers = setup_providers()
     setup_di_config(config, di_providers.main)
-    di_container = make_async_container(*di_providers)
 
+    di_container = make_async_container(*di_providers)
     setup_dishka(di_container, app)
