@@ -2,11 +2,11 @@ from dataclasses import astuple, dataclass
 from typing import Iterable
 
 from .db import DBProvider
-from .event_bus import EventBusProvider
 from .main import MainProvider
+from .message_broker import MessageBrokerProvider
 from .product import ProductProvider
 
-__all__ = ("DBProvider", "EventBusProvider", "MainProvider", "ProductProvider")
+__all__ = ("DBProvider", "MessageBrokerProvider", "MainProvider", "ProductProvider")
 
 
 @dataclass(frozen=True)
