@@ -12,9 +12,7 @@ from src.infrastructure.db.repositories.product import (
 
 
 class ProductProvider(Provider):
-    product_repo = provide(
-        ProductRepoImpl, scope=Scope.REQUEST, provides=ProductRepo
-    )
+    product_repo = provide(ProductRepoImpl, scope=Scope.REQUEST, provides=ProductRepo)
     product_reader = provide(
         ProductReaderImpl, scope=Scope.REQUEST, provides=ProductReader
     )

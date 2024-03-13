@@ -16,13 +16,19 @@ async def test_create_product(test_client: AsyncTestClient) -> None:
     assert response.status_code == 201
 
 
-async def test_update_product(test_client: AsyncTestClient, created_product: Product) -> None:
-    response = await test_client.patch(f"/product/update/{created_product.id}/", json={})
+async def test_update_product(
+    test_client: AsyncTestClient, created_product: Product
+) -> None:
+    response = await test_client.patch(
+        f"/product/update/{created_product.id}/", json={}
+    )
 
     assert response.status_code == 200
 
 
-async def test_delete_product(test_client: AsyncTestClient, created_product: Product) -> None:
+async def test_delete_product(
+    test_client: AsyncTestClient, created_product: Product
+) -> None:
     response = await test_client.delete(f"/product/delete/{created_product.id}/")
 
     assert response.status_code == 200
