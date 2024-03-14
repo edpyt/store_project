@@ -26,3 +26,4 @@ def setup_di_config(config: Config, main_provider: Provider) -> None:
     main_provider.provide(lambda: config.db, scope=Scope.APP, provides=DBConfig)
     main_provider.provide(lambda: config.logging, scope=Scope.APP, provides=LoggingConfig)
     main_provider.provide(lambda: config.api, scope=Scope.APP, provides=APIConfig)
+    main_provider.provide(lambda: config.event_bus, scope=Scope.APP, provides=EventBusConfig)

@@ -10,15 +10,9 @@ from sqlalchemy.ext.asyncio import (
 from src.infrastructure.db.config import DBConfig
 
 
-async def build_sa_engine(
-    db_config: DBConfig,
-) -> AsyncGenerator[AsyncEngine, None]:
-    engine = create_async_engine(
-        db_config.full_url, echo=db_config.echo, pool_size=50
-    )
-    yield engine
-
-    await engine.dispose()
+def build_sa_engine(db_config: DBConfig) -> AsyncEngine:
+    engine = create_async_engine(db_config.full_url, echo=db_config.echo, pool_size=50)
+    return engine
 
 
 def build_sa_session_factory(
